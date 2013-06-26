@@ -16,6 +16,7 @@ class Planet < SpaceNode
 
 		@size = seed[ 0 ]
 		@temperature = seed[ 1 ]
+		@building = nil
 	end
 	
 	#
@@ -31,6 +32,19 @@ class Planet < SpaceNode
 		end
 		
 		@building = building
+	end
+	
+	#
+	#
+	def scan( tech = {} )
+		result = {
+			:type => self.class,
+			:size => @size,
+			:temperature => @temperature,
+			:building => @building.class
+		}
+		result[ :log ] = SpaceLog.generate( :scan, :planet, result, tech )
+		return result
 	end
 	
 end

@@ -15,4 +15,13 @@ class Asteroid < SpaceNode
 		@size = seed[ 0 ]
 	end
 	
+	#
+	#
+	def scan( tech = {} )
+		return {
+			:type => self.class,
+			:size => @size,
+		}
+	end
+	
 end
