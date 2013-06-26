@@ -18,6 +18,7 @@ class RubiesInSpaceRunner
 		join BasicCrew
 		
 		create
+		simulate
 	end
 	
 	##
@@ -40,6 +41,8 @@ class RubiesInSpaceRunner
 		@options[ :secrets ] = @players.map { | p | p.secret }
 		@space = @generator.build @options 
 		
+		Space.log "\r\nSpawning players"
+		
 		@players.each do | p | 
 			p.spawn( 
 				@space.node( 
@@ -56,16 +59,25 @@ class RubiesInSpaceRunner
 		
 		@step = 0
 		
+		Space.log "\r\nSimulation started"
+		
 		#Thread
 		loop do
-		
+			
 			@step += 1
-				
-				
+			
+			@players.each do | p |
+				p.step @step
+			end
+			
+			@players.each do | p |
+				p.process @step
+			end
+	
 			break if @step == 100
 		end
 		
-		Space.log "Die"
+		Space.log "Simulation ended"
 		
 	end
 	
