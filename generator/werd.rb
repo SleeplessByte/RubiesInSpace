@@ -13,8 +13,10 @@ class WerdGenerator
 	##
 	# Runs the werd generator
 	#
-	def	self.run( filename, number, override = false )
+	def	self.run( filename, number, randomizer, override = false )
 	
+		@@randomizer = randomizer
+		
         if override || @@cache[ filename ].nil?
 			@@cache[ filename ] = WerdGenerator::Data.new filename
 		end
@@ -23,6 +25,10 @@ class WerdGenerator
         number.times do
 			yield data.fetch
 		end
+	end
+	
+	def self.rand( n )
+		@@randomizer.rand n
 	end
 	
 	##
@@ -52,7 +58,7 @@ class WerdGenerator
 		def parse( key )
 
 			groups = @contents[ key ].split ' '
-			result = groups[ Random.rand groups.length ].clone
+			result = groups[ WerdGenerator.rand groups.length ].clone
 			if ( matches = result.scan( /([A-Z])/ ) )
 				for match in matches
 					result.sub! match[ 0 ], parse( match[ 0 ] )
@@ -76,4 +82,4 @@ class WerdGenerator
 	end
 end
 
-WerdGenerator.run( 'Geordi.txt', 100 ) { |r| puts r }
+WerdGenerator.run( 'Geordi.txt', 100, Random.new ) { |r| puts r }
