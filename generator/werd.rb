@@ -44,9 +44,9 @@ class WerdGenerator
 		##
 		#
 		#
-		def initialize( filename )
+		def initialize( filename, key = ' ' )
 			@contents = {}
-			@key = ' '
+			@key = key
 			
 			File.open( filename, "r") do | infile |
 				while ( line = infile.gets )
@@ -85,8 +85,8 @@ class WerdGenerator
 		##
 		#
 		#
-		def fetch
-			parse @key
+		def fetch( key = nil )
+			parse key ? @key
         end
 	end
 end
