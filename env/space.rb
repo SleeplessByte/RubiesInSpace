@@ -16,7 +16,7 @@ class Space
 	##
 	#
 	#
-	VERSION  = '1.0.0'
+	VERSION  = 1
 	
 	##
 	#
@@ -27,6 +27,20 @@ class Space
 	#
 	#
 	UNIVERSE = {
+		
+		##
+		# original: 48315.6
+		# 4 = 24 - 20
+		# 8 = season / version
+		# 315 = indication in season
+		# 6 = day
+		#
+		# here: 48315.6
+		# 
+		:stardate => {
+			:century =>	24,
+			:season => VERSION
+		},
 		
 		##
 		# The number of nodes
@@ -175,6 +189,21 @@ class Space
 	#
 	def self.log( args )
 		puts args
+	end
+	
+	#
+	#
+	#
+	def self.timestamped( t, args )
+		puts "Stardate #{stardate t }: #{ args }"
+	end
+	
+	#
+	#
+	#
+	def self.stardate( t )
+		century = UNIVERSE[ :stardate ][ :century ] * 10 + UNIVERSE[ :stardate ][ :season ] - 200
+		return century * 1000 + t.to_f / 10
 	end
 		
 	protected
