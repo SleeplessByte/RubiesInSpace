@@ -1,3 +1,4 @@
+require_relative 'spacepath'
 # The space node
 #
 class SpaceNode
@@ -7,10 +8,16 @@ class SpaceNode
 	#
 	def initialize( seed )
 		@seed = seed
-		@name = seed
 		@connections = []
 	end
 
+	##
+	#
+	#
+	def identifier
+		self.object_id
+	end
+	
 	##
 	# 
 	#
@@ -22,16 +29,25 @@ class SpaceNode
 		@connections.push path
 	end
 	
+	##
+	#
+	#
 	def connections
 		@connections.map { | c | c.alpha === self ? c.beta : c.alpha }
 	end
 	
+	##
+	#
+	#
 	def paths
 		@connections.map { | c | { :to => c.alpha === self ? c.beta : c.alpha, :distance => c.distance } }
 	end
 	
+	##
+	#
+	#
 	def to_s
-		"#{ self.class.name }_#{ self.object_id }"
+		"#{ self.class.name[ 0 ] }#{ self.object_id.to_s[ -4..-1 ] }"
 	end
 	
 end
