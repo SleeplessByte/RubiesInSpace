@@ -348,15 +348,15 @@ class BasicSpaceGenerator
 	# Creates space from a set of options
 	#
 	def self.build( options )
-		Space.log "Creation of the Universe has started"
+		Space.log "Creation of the Universe has started with #{ options }"
 
 		##
 		#
 		#
 		results = Space.new( options )
 		universe = results.configuration
-		universe_size = size universe
-		universe_contents = contents universe, universe_size
+		universe_size = size( universe )
+		universe_contents = contents( universe, universe_size )
 
 		Space.log "Developing #{  universe_contents[ :stars ] } stars, mending #{  universe_contents[ :planets ] } planets, throwing #{  universe_contents[ :asteroids ] } asteroids, " +
 			"totalling in #{ universe_size[ :n ] } nodes with #{ universe_size[ :f ] } faces and #{ universe_size[ :p ] } paths"
@@ -380,38 +380,7 @@ class BasicSpaceGenerator
 		connect_sparse_asteroids( nodes, groups[ :extended_clusters ], universe, universe_size, universe_contents )
 		overconnect_close_nodes( groups[ :extended_clusters ], universe, universe_size )
 		
-		processed = []
-		digraph do
-		
-			node_attribs << filled
-							
-			nodes.each do |node|
-				
-				node.paths.each { |p| 
-				
-					if processed.include? p
-						next
-					end
-					processed.push p
-					
-					edge node, p[ :to ]
-					
-					if node.is_a? Star
-						darkgoldenrod << node( node )
-					elsif node.is_a? Planet
-						limegreen << node( node )
-					elsif node.is_a? Asteroid
-						lightslategray << node( node )
-					end
-				}
-			end
-
-			print "\r                                                            \r"
-			Space.log "Generating graph image"
-			
-			save 'graph-' + results.birthdate.to_i.to_s, 'png'
-		end
-		
+		print "\r                                                            \r"
 		Space.log "The Universe has been created"
 		results.fill nodes
 		
@@ -434,5 +403,3 @@ class BasicSpaceGenerator
 		}
 	end
 end
-
-a = BasicSpaceGenerator.build( { :secrets => [ 'foo', 'bar' ], :universe => { :size => 32 } } )

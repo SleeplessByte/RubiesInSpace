@@ -12,8 +12,10 @@ class WerdGenerator
 	
 	##
 	# Runs the werd generator
-	#
-	def	self.run( filename, number, randomizer, override = false )
+	# filename is the name of the file
+	# number is the number of results
+	# randomizer is the randomizer to use
+	def	self.run( filename, number, randomizer = Random, override = false )
 	
 		@@randomizer = randomizer
 		
@@ -27,6 +29,9 @@ class WerdGenerator
 		end
 	end
 	
+	##
+	#
+	#
 	def self.rand( n )
 		@@randomizer.rand n
 	end
@@ -34,13 +39,11 @@ class WerdGenerator
 	##
 	#
 	#
-	
 	class Data 
 
 		##
 		#
 		#
-		
 		def initialize( filename )
 			@contents = {}
 			@key = ' '
@@ -55,6 +58,9 @@ class WerdGenerator
 			end
 		end
 
+		##
+		#
+		# 
 		def parse( key )
 
 			groups = @contents[ key ].split ' '
@@ -76,6 +82,9 @@ class WerdGenerator
 			return result
 		end
 		
+		##
+		#
+		#
 		def fetch
 			parse @key
         end
