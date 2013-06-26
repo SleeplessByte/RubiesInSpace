@@ -4,7 +4,7 @@ require_relative '../interface/iship'
 #
 class Ship
 
-	attr_reader :interface, :data, :crew
+	attr_reader :interface, :data, :crew, :location, :owner
 	attr_accessor :result
 	
 	##
@@ -31,8 +31,14 @@ class Ship
 		@events = []
 		@action_progression = 1
 		
-		@interface = IShip.new self
 		@data = data
+		@interface = IShip.new self
+	end
+	
+	#
+	#
+	def identifier
+		self.object_id
 	end
 	
 	##
@@ -54,7 +60,6 @@ class Ship
 		@crew = crew
 		@crew.board @interface
 	end
-
 	
 	#
 	#
@@ -93,7 +98,9 @@ class Ship
 	#
 	#
 	def travel( node )
+		@location.leave self if @location
 		@location = node
+		@location.join self
 	end
 	
 	#
@@ -128,11 +135,32 @@ class Ship
 		@actions.shift
 	end
 	
+	def duration=( duration )
+		@action_progression = 0
+		@action_duration = duration
+	end
+	
+	##
+	#
+	#
+	def progress()
+		@action_progression += 1.to_f / @action_duration
+	end
+	
 	##
 	#
 	#
 	def clear_queue()
 		@actions = []
+	end
+	
+	##
+	#
+	#
+	def scan( tech = {} )
+		return {
+			:owner => owner.identifier,
+		}
 	end
 
 end
