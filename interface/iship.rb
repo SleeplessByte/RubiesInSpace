@@ -12,17 +12,20 @@ require_relative 'action.scan'
 #
 class IShip
 	
+	attr_reader :name
+	
 	##
 	# Create an ship interface
 	#
 	def initialize( ship )
 		@ship = ship
+		@name = ship.data[ :name ] || "Unnamed vessel"
 	end
 	
 	##
 	#
 	#
-	def identifer
+	def identifier
 		@ship.object_id
 	end
 	
@@ -135,7 +138,7 @@ class IShip
 	# Create scan action
 	#
 	def scan()
-		ScanAction.new self, :scan
+		ScanAction.new self
 	end
 	
 	##
@@ -164,6 +167,13 @@ class IShip
 	#
 	def attack( ship )
 		AttackAction.new self, ship
+	end
+	
+	#
+	#
+	#
+	def to_s
+		"#{ name } (#{ identifier })"
 	end
 	
 	# weapons
