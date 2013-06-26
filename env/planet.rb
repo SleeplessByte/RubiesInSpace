@@ -13,10 +13,9 @@ class Planet < SpaceNode
 	def initialize( seed )
 		
 		super( seed )
-		
-		@size = 0
-		@temperature = 0 # make up some formulaaa
-		
+
+		@size = seed[ 0 ]
+		@temperature = seed[ 1 ]
 	end
 	
 	#
