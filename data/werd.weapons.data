@@ -1,0 +1,10 @@
+﻿#=====================================================
+# Use ! to capitalize a word
+# Use _ to add a space
+# Use \! to add an exclamation point
+# Use [A-Z]:option option option
+#=====================================================
+W:B_C_D B_D
+B:field tachyon baryon lepton electromagnetic phase pulse sub-space spectral antimatter plasma bandwidth particle
+C:dispersion induction frequency resonance
+D:laser gun beam rocket

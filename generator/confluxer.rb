@@ -30,6 +30,7 @@ class Confluxer
 		
 		max_length = options[ :max ] || MAX_LENGTH
 		min_length = options[ :min ] || MIN_LENGTH
+		capitalize = options[ :capitalize ] || true
 		
 		##
 		# Loop to generate new words, beginning with a start_pair; find a word,
@@ -39,7 +40,9 @@ class Confluxer
 		
 		word = data.fetch_start
 		number.times do
-			word = fetch( word[ -2..-1 ].downcase.capitalize, data, min_length )
+			key = word[ -2..-1 ].downcase
+			key.capitalize! if capitalize
+			word = fetch( key, data, min_length, capitalize )
 			yield word[ 0...max_length ]
 		end
 	end
@@ -48,20 +51,21 @@ class Confluxer
 	# Messy recursive function to build a word, handling "seeds" 
 	# from previous words properly
 	#
-	def self.fetch( word, data, min_length )
+	def self.fetch( word, data, min_length, capitalize )
 		key = word[ -2..-1 ]
 		letter = data.fetch key
 		if /\s/.match( word )
 			if word.length <= min_length
-				key = ( key[ -1 ] + letter ).downcase.capitalize
+				key = ( key[ -1 ] + letter ).downcase
+				key.capitalize! if capitalize
 				if data.fetch key == ' '
 					key = data.fetch_start
 				end
-				return fetch( key, data, min_length )
+				return fetch( key, data, min_length, capitalize )
 			end
 			return word[ 0...-1 ]
 		end
-		return fetch( word + letter, data, min_length )
+		return fetch( word + letter, data, min_length, capitalize )
 	end
 	
 	def self.rand( n )
@@ -117,4 +121,4 @@ class Confluxer
 	end
 end
 
-Confluxer.run( 'Celtic.txt', 100, Random.new, { :min => 3 } ) { |r| puts r }
+Confluxer.run( 'Celtic.txt', 100, Random.new, { :min => 3, :capitalize => false } ) { |r| puts r }

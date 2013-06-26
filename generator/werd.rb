@@ -81,5 +81,3 @@ class WerdGenerator
         end
 	end
 end
-
-WerdGenerator.run( 'Geordi.txt', 100, Random.new ) { |r| puts r }
