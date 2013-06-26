@@ -435,4 +435,4 @@ class BasicSpaceGenerator
 	end
 end
 
-a = BasicSpaceGenerator.build( { :secrets => [ 'foo', 'bar' ], :universe => { :size => 1024 + 512 } } )
+a = BasicSpaceGenerator.build( { :secrets => [ 'foo', 'bar' ], :universe => { :size => 32 } } )
