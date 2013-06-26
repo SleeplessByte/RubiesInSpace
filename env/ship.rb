@@ -4,7 +4,7 @@ require_relative '../interface/iship'
 #
 class Ship
 
-	attr_reader :interface, :data
+	attr_reader :interface, :data, :crew
 	attr_accessor :result
 	
 	##
@@ -29,16 +29,32 @@ class Ship
 		
 		@actions = []
 		@events = []
+		@action_progression = 1
 		
 		@interface = IShip.new self
 		@data = data
 	end
 	
+	##
 	#
-	#
-	def donate( owner )
-		@owner = owner
+	def dead?()
+		amount_of( :deuterium ) <= 0
 	end
+	
+	##
+	#
+	def busy?()
+		@action_progression < 1
+	end
+	
+	#
+	#
+	def donate( owner, crew )
+		@owner = owner
+		@crew = crew
+		@crew.board @interface
+	end
+
 	
 	#
 	#
@@ -103,6 +119,13 @@ class Ship
 	#
 	def queue( action )
 		@actions.push action
+	end
+	
+	##
+	#
+	#
+	def advance()
+		@actions.shift
 	end
 	
 	##
