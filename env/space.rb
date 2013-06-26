@@ -30,7 +30,7 @@ class Space
 		
 		##
 		# The number of nodes
-		:size => 32,
+		:size => 64,
 		
 		##
 		# The ratios of the types 
@@ -115,10 +115,28 @@ class Space
 	end
 	
 	##
-	# 
+	# Fill with nodes
 	#
 	def fill( nodes ) 
-		@nodes = nodes
+		@nodes = {}
+		nodes.each do |n|
+			@nodes[ n.identifier ] = n
+		end
+	end
+	
+	##
+	# Get a random spawn node
+	#
+	def get_spawn_node()
+		planets = @nodes.values.select { | n | n.is_a? Planet }
+		return planets[ rand planets.length ].identifier
+	end
+	
+	##
+	# Gets a specific node
+	#
+	def node( id )
+		@nodes[ id ]
 	end
 	
 	##
