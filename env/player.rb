@@ -2,28 +2,30 @@ require 'benchmark'
 
 class Player
 	
-	attr_reader :crew, :ship, :time, :last_time, :secret
+	attr_reader :crews, :ships, :time, :last_time, :secret, :progress
 	
 	#
 	#
 	def initialize( crew )
 		
 		# Create the crew
-		@crew = crew.new 
-		test @crew
+		@crews = [ crew.new ]
+		test @crews[ 0 ]
 		
 		# Create the ship
-		@ship = Ship.new()
+		@ships = [ Ship.new() ]
 		
 		# Board and own
-		@ship.donate self
-		@crew.board @ship.interface
-		@secret = @crew.identifier
+		@ships[ 0 ].donate self, @crews[ 0 ]
+		@secret = @crews[ 0 ].identifier
 
 		@time = 0.0
 		@last_time = 0.0
 	end
 	
+	##
+	#
+	#
 	def identifier
 		self.object_id
 	end
@@ -42,21 +44,77 @@ class Player
 	##
 	# Spawn the player on a node
 	#
-	def spawn( node )
-		@ship.travel( node )
-		Space.log "Spawned #{ identifier } on #{ @ship.interface.position }"
+	def spawn( node, ship = @ships[ 0 ] )
+		ship.travel( node )
+		Space.timestamped 0, "Spawned #{ identifier } on #{ ship.interface.position }"
 	end
 	
-	#
-	#
+	##
+	# Steps the crew
+	# @todo stop if all ships dead
 	def step( t )
+						
 		bm = Benchmark.measure do
-			crew.step t
+			@ships.each do | ship |
+				next if ship.dead?
+				next if ship.busy?
+				ship.crew.step t
+			end
 		end
 		
 		# make total - don't care about system time
 		@last_time = bm.utime
 		@time += bm.utime
+	end
+	
+	##
+	# Processes the actions
+	#
+	def process( t )
+		
+		@ships.each do | ship |
+			
+			if ship.busy?
+				ship.progress
+				puts 'busy'
+				next
+			end
+			
+			action = ship.advance
+			if action != nil
+				next unless action.respond_to? :source
+				if ship.interface != action.source
+					Space.log "Is this a hacking attempt by #{ identifier }?"
+					next
+				end
+				
+				do_method = "do_#{ action.class.name.downcase.sub( 'action', '' ) }"
+				send( do_method, t, ship, action ) if respond_to? do_method
+			end
+			
+		end
+	end
+	
+	##
+	#
+	#
+	def do_scan( t, ship, action )
+				
+		# Determine time
+		duration = 1 + [ 10 - ship.stat( :efficiency ) , -1 ].max
+		ship.duration = duration
+		
+		# Determine data
+		location = ship.location
+		source = ship.interface
+		
+		# Get result
+		environment = location.scan()
+		paths = location.scan_paths()		
+		ships = location.ships
+		friendlies = ships.select { |s| s.owner == ship.owner }.map { |s| s.scan() }
+		enemies = ships.select { |s| s.owner != ship.owner }.map { |s| s.scan() }
+		ship.result = ScanResult.new( t, source, environment, paths, friendlies, enemies )
 	end
 	
 end
