@@ -1,7 +1,9 @@
 require_relative 'spacepath'
 # The space node
 #
-class SpaceNode
+class SpaceNode	
+		
+	attr_reader :ships	
 		
 	##
 	#
@@ -9,6 +11,7 @@ class SpaceNode
 	def initialize( seed )
 		@seed = seed
 		@connections = []
+		@ships = []
 	end
 
 	##
@@ -41,6 +44,25 @@ class SpaceNode
 	#
 	def paths
 		@connections.map { | c | { :to => c.alpha === self ? c.beta : c.alpha, :distance => c.distance } }
+	end
+	
+	##
+	#
+	#
+	def scan_paths( tech = {} )
+		@connections.map { | p | p.scan( tech ) }
+	end
+	
+	#
+	#
+	def join( ship )
+		@ships.push ship
+	end
+	
+	#
+	#
+	def leave( ship )
+		@ships.leave ship
 	end
 	
 	##
