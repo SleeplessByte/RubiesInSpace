@@ -86,7 +86,7 @@ class WerdGenerator
 		#
 		#
 		def fetch( key = nil )
-			parse key ? @key
+			parse key.nil? ? @key : key
         end
 	end
 end
