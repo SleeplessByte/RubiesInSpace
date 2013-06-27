@@ -62,7 +62,7 @@ class SpaceNode
 	#
 	#
 	def leave( ship )
-		@ships.leave ship
+		@ships.delete ship
 	end
 	
 	##
