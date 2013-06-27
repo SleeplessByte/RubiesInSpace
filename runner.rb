@@ -8,19 +8,11 @@ class RubiesInSpaceRunner
 	##
 	# Intialize the runner with a generator and options
 	#
-	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 64 } } )
+	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 16 } } )
 		
 		@generator = generator
 		@options = options
 		@players = []
-		
-		join BasicCrew
-		join BasicCrew
-		join BasicCrew
-		
-		join BasicCrew
-		join BasicCrew
-		join BasicCrew
 		
 		join BasicCrew
 		join BasicCrew
@@ -45,7 +37,7 @@ class RubiesInSpaceRunner
 	##
 	# Create everything
 	#
-	def create()
+	def create
 		
 		@options[ :secrets ] = @players.map { | p | p.secret }
 		@space = @generator.build @options 
@@ -73,7 +65,7 @@ class RubiesInSpaceRunner
 	##
 	#
 	#
-	def simulate()
+	def simulate
 		
 		@step = 0
 		
@@ -81,6 +73,7 @@ class RubiesInSpaceRunner
 		actions = []
 		
 		bm = Benchmark.measure do
+			
 			loop do
 				
 				@step += 1
@@ -88,13 +81,16 @@ class RubiesInSpaceRunner
 				##
 				# Step all the players that are not busy
 				#
-				actions += @active_players.select{ | player | !actions.any? { | action | action[ :player ] == player } }
-					.map { | player | player.step @step }.flatten
+				actions = ( actions + ( 
+						@active_players.select{ | player | !actions.any? { | action | action[ :player ] == player } }
+							.map { | player | player.step @step } 
+					) 
+				).flatten
 				
 				##
 				# Process all the actions we have
 				#
-				actions = actions.select { | action | 
+				actions = actions.sort_by { Space.rand }.select { | action | 
 					action[ :action ] != nil and ( action[ :state ] = action[ :player ].process( 
 						@step, action[ :ship ], action[ :action ], action[ :time ], action[ :state ] 
 					) ) != :kill
@@ -107,10 +103,13 @@ class RubiesInSpaceRunner
 		
 				break if @step == 1000000 or @active_players.length == 0
 			end
+			
 		end
 		
+		
+		
 		puts ""
-		Space.log "Simulation ended at #{ Space.stardate @step } / #{ bm }"
+		Space.log "Simulation ended at #{ Space.stardate @step } / #{ bm } / #{ @active_players.length  } standing"
 		
 	end
 	
