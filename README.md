@@ -14,7 +14,7 @@ DRAFT
 &#x2611; Space is a graph
 
 Nodes can have 
-- &#x2611; sun
+- &#x2611; star
 - &#x2611; planet
 - &#x2611; asteroid
 
