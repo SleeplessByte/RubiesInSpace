@@ -8,14 +8,12 @@ class RubiesInSpaceRunner
 	##
 	# Intialize the runner with a generator and options
 	#
-	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 16 } } )
+	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 128 } } )
 		
 		@generator = generator
 		@options = options
 		@players = []
 		
-		join BasicCrew
-		join BasicCrew
 		join BasicCrew
 		join BasicCrew
 		
