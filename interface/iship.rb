@@ -89,7 +89,7 @@ class IShip
 	# Current action
 	#
 	def current
-		@ship.action
+		@ship.current
 	end
 	
 	##
