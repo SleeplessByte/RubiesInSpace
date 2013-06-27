@@ -16,6 +16,8 @@ class RubiesInSpaceRunner
 		
 		join BasicCrew
 		join BasicCrew
+		join BasicCrew
+		join BasicCrew
 		
 		create
 		simulate
@@ -66,18 +68,23 @@ class RubiesInSpaceRunner
 			
 			@step += 1
 			
-			@players.each do | p |
+			players = @players.clone
+			players.each do | p |
 				p.step @step
 			end
 			
-			@players.each do | p |
+			players.each do | p |
 				p.process @step
 			end
+			
+			players.each do | p |
+				@players.delete p if p.dead?
+			end
 	
-			break if @step == 5000
+			break if @step == 500000 or @players.length == 0
 		end
 		
-		Space.log "Simulation ended"
+		Space.log "Simulation ended at #{ Space.stardate @step }"
 		
 	end
 	
