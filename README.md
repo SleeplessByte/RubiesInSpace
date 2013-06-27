@@ -7,65 +7,73 @@ Find some Rubies by building your own agent in Ruby
 
 
 DRAFT
+-------------
 
-Space is a graph
+**Environment**
+
+&#x2611; Space is a graph
 
 Nodes can have 
-- sun
-- planet
-- asteroid
+- &#x2611; sun
+- &#x2611; planet
+- &#x2611; asteroid
 
 Sun provides
-- deuterium
+- &#x2611; deuterium
 
 Planet provides
-- Lab
-- Factory
-- Nothing
+- &#x2610; Lab
+- &#x2610; Factory
+- &#x2611; Nothing
 
 Asteroid provides
-- Maybe Ruby
+- &#x2610; Maybe Ruby
 
 Pathways prodivdes
-- Non-renewable deuterium
+- &#x2611; Non-renewable deuterium
 
-You have a ship
-You maintain a crew
+**Actions**
+
+&#x2611; You have a ship
+&#x2611; You maintain a crew
 
 Program the crew collective with 8 actions
-- Scan: find pathways, deut, planet info, sun info 
-- Travel: traverse the pathways
-- Communicate: broadcast
-- Attack: enemies beware
-- Build: new ships, upgrades
-- Research: tech, upgrades
-- Collect: deuterium
-- Transfer: send deut to other ship
+- &#x2611; Scan: find pathways, deut, planet info, sun info 
+- &#x2611; Travel: traverse the pathways
+- &#x2610; Communicate: broadcast
+- &#x2610; Attack: enemies beware
+- &#x2610; Build: new ships, upgrades
+- &#x2610; Research: tech, upgrades
+- &#x2610; Collect: deuterium
+- &#x2610; Transfer: send deut to other ship
 
 Everything costs
-- deuterium: the main resource
-- time: steps
+- &#x2611; deuterium: the main resource
+- &#x2611; time: steps
 
-You can only do one thing at a time
+&#x2611; You can only do one thing at a time
 
+**STATS**
 Your ship has two stats
-- speed: travel speed
-- efficiency: deut > product
+- &#x2611; speed: travel speed
+- &#x2611; efficiency: deut > product
 
+**EVENTS**
 Events
-- Solar flares
-- Super nova
-- Asteroid attack
+- &#x2610; Solar flares
+- &#x2610; Super nova
+- &#x2610;  attack
 - ...
 
+**BUILD/RESEARCH**
 TechTree
-- Better efficiency
-- Better weapons
-- Better ...
-- Passive Scanner
-- Passive Collector
-- Ruby miner
+- &#x2610; Better efficiency
+- &#x2610; Better weapons
+- &#x2610; Better ...
+- &#x2610; Passive Scanner
+- &#x2610; Passive Collector
+- &#x2610; Ruby miner
 
 Win by
-- Survival of the rubiest ( find rubies! )
-- Survival of the fittest ( last standing )
+- &#x2610; Survival of the rubiest ( find rubies! )
+- &#x2610; Survival of the fittest ( last standing )
