@@ -30,10 +30,19 @@ class BasicCrew
 			
 			if @ship.result.is_a? ScanResult
 				current = @ship.position
-				others = @ship.result.paths.map { |p| p[ :alpha ] == current ? p[ :beta ] : p[ :alpha ] }.select{ |d| !@visited.include?( d ) }
-				return if others.length == 0
 				
-				@ship.queue @ship.travel( others[ Space.rand others.length ] )
+				if @ship.energy_ratio < 0.8 and !@ship.result.environment[ :deuterium ].nil? and not @ship.result.environment[ :deuterium ] <= 0
+					
+					puts @ship.result.environment[ :deuterium ]
+					@ship.queue @ship.collect [ @ship.result.environment[ :deuterium ], @ship.energy_capacity - @ship.energy ].min + 20
+					
+				else
+				
+					others = @ship.result.paths.map { |p| p[ :alpha ] == current ? p[ :beta ] : p[ :alpha ] }.select{ |d| !@visited.include?( d ) }
+					return if others.length == 0
+					
+					@ship.queue @ship.travel( others[ Space.rand others.length ] )
+				end
 			else
 				@visited.push @ship.position
 				@ship.queue @ship.scan()
