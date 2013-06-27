@@ -9,7 +9,15 @@ class TravelResult
 		@depletion = depletion
 		@distance = distance
 		@duration = duration
+	end
+	
+	def depletion=(value)
+		@depletion = value
+	end
+	
+	def finalize
 		@log = SpaceLog.generate( :result, :travel, self )
+		self.freeze
 	end
 	
 	def to_s
