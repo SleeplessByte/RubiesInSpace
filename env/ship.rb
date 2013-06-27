@@ -27,7 +27,7 @@ class Ship
 		@result = nil
 		@position = nil
 		
-		@actions = []
+		@actions = [ nil ]
 		@events = []
 		@action_progression = 1
 		
@@ -132,9 +132,13 @@ class Ship
 	#
 	#
 	def advance()
-		@actions.shift
+		action = @actions.shift
+		@actions = [ nil ] if @actions.empty?
 	end
 	
+	##
+	#
+	#
 	def duration=( duration )
 		@action_progression = 0
 		@action_duration = duration
@@ -161,6 +165,10 @@ class Ship
 		return {
 			:owner => owner.identifier,
 		}
+	end
+	
+	def to_s
+		@interface.to_s
 	end
 
 end
