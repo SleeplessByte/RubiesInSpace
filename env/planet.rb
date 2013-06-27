@@ -7,6 +7,7 @@ class Planet < SpaceNode
 	attr_reader :building
 	attr_reader :size
 	attr_reader :temperature
+	attr_reader :deuterium
 	
 	#
 	#
@@ -16,6 +17,8 @@ class Planet < SpaceNode
 
 		@size = seed[ 0 ]
 		@temperature = seed[ 1 ]
+		@deuterium = seed[ 2 ]
+		
 		@building = nil
 	end
 	
@@ -41,10 +44,19 @@ class Planet < SpaceNode
 			:type => self.class,
 			:size => @size,
 			:temperature => @temperature,
-			:building => @building.class
+			:building => @building.nil? ? nil : @building.scan(), 
+			:deuterium => @deuterium
 		}
 		result[ :log ] = SpaceLog.generate( :scan, :planet, result, tech )
 		return result
+	end
+	
+	#
+	#
+	def collect( c )
+		collection = [ c, @deuterium ].min
+		@deuterium -= collection
+		return collection
 	end
 	
 end

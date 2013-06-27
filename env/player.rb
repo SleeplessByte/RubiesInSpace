@@ -5,6 +5,11 @@ class Player
 	BASESCAN = 10
 	BASETRAVEL = 10
 	BASEFUEL = 1
+	BASECOLLECT = 20
+	
+	PRESCAN = 1
+	PRETRAVEL = 1
+	PRECOLLECT = 10
 	
 	attr_reader :crews, :ships, :time, :last_time, :secret, :progress
 	
@@ -32,6 +37,10 @@ class Player
 	#
 	def identifier
 		self.object_id
+	end
+	
+	def dead?
+		@ships.all? { | s | s.dead? }
 	end
 	
 	##
@@ -104,13 +113,15 @@ class Player
 	def do_scan( t, ship, action )
 				
 		# Determine time
-		duration = 1 + [ BASESCAN - ship.stat( :efficiency ) , -1 ].max
+		duration = PRESCAN + [ BASESCAN - ship.stat( :efficiency ) , -1 ].max
 		ship.duration = duration
 		
 		# Determine data
 		location = ship.location
 		source = ship.interface
 		
+		# TODO variance
+		# TODO tech
 		# Get result
 		environment = location.scan()
 		paths = location.scan_paths()		
@@ -127,10 +138,12 @@ class Player
 		return unless path
 		
 		# Determine time @todo tech
-		duration = 1 + [ BASETRAVEL * ( path[ :distance ] - ship.stat( :speed ) ) , -1 ].max
+		duration = PRETRAVEL + [ BASETRAVEL * ( path[ :distance ] - ship.stat( :speed ) ) , -1 ].max
 		ship.duration = duration
 		
-		# Get data @todo tech
+		# TODO variance
+		# TODO tech
+		# Get data
 		depletion = BASEFUEL * duration * ( 1 - ship.stat( :efficiency ) / 100.to_f )
 		ship.travel( path[ :to ] )
 		depletion = ship.consume( depletion, :deuterium )
@@ -140,6 +153,30 @@ class Player
 		
 		# Get result
 		ship.result = TravelResult.new( t, source, node, distance , duration, depletion )
+	end
+	
+	def do_collect( t, ship, action )
+		
+		# Determine time 
+		duration = action.duration
+		ship.duration = duration
+	
+		
+		# TODO variance
+		# TODO tech
+		collected = 0
+		location = ship.location
+		source = ship.interface 
+		
+		# TODO do this per t, not iterate all t
+		( [ action.duration - PRECOLLECT, 0 ].max.floor ).times do
+			collection = BASECOLLECT * ( 1 - ship.stat( :efficiency ) / 100.to_f )
+			collection = location.collect collection
+			collected += ship.collect collection
+		end
+		
+		# Get result
+		ship.result = CollectResult.new( t, source, collected )
 	end
 	
 end

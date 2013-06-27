@@ -37,4 +37,10 @@ class SpaceLog
 		
 	end
 	
+	def self.generate_result_of_collect( collect )
+		
+		"#{ collect.source }. We've managed to collect #{ collect.collected } litres of deuterium."
+		
+	end
+	
 end

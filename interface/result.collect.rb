@@ -1,10 +1,15 @@
 class CollectResult
 	
-	attr_reader :source, :collected
+	attr_reader :timestamp, :source, :collected, :log
 	
-	def initialize( source, collected )
+	def initialize( t, source, collected )
 		@source = source
 		@collected = collected
+		@log = SpaceLog.generate( :result, :collect, self )
+	end
+	
+	def to_s
+		@log
 	end
 	
 end

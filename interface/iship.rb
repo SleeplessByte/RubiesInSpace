@@ -123,8 +123,8 @@ class IShip
 	##
 	# Create collect action for time
 	#
-	def collect( time )
-		CollectAction.new self, time
+	def collect( duration )
+		CollectAction.new self, duration
 	end
 	
 	##

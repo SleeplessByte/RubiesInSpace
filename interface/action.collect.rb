@@ -1,10 +1,10 @@
 class CollectAction
 	
-	attr_reader :source, :time
+	attr_reader :source, :duration
 	
-	def initialize( source, time )
+	def initialize( source, duration )
 		@source = source
-		@time = time
+		@duration = duration
 	end
 	
 end
