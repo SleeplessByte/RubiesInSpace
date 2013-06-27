@@ -72,6 +72,7 @@ class Player
 				next if ship.dead?
 				next if ship.busy?
 				ship.crew.step t
+				ship.advance
 			end
 		end
 		
@@ -92,7 +93,7 @@ class Player
 				next
 			end
 			
-			action = ship.advance
+			action = ship.current
 			if action != nil
 				next unless action.respond_to? :source
 				if ship.interface != action.source
@@ -102,6 +103,10 @@ class Player
 				
 				do_method = "do_#{ action.class.name.downcase.sub( 'action', '' ) }"
 				send( do_method, t, ship, action ) if respond_to? do_method
+				
+				if ship.dead?
+					Space.timestamped t, "\r\n==========================\r\nI died. #{ ship }\r\n==========================\r\n\r\n"
+				end
 			end
 			
 		end
@@ -161,17 +166,18 @@ class Player
 		duration = action.duration
 		ship.duration = duration
 	
-		
 		# TODO variance
 		# TODO tech
 		collected = 0
 		location = ship.location
 		source = ship.interface 
 		
+		shares = location.ships.select { |s| s.current.class == action.class }.map{ |s| s.current.duration }
+
 		# TODO do this per t, not iterate all t
 		( [ action.duration - PRECOLLECT, 0 ].max.floor ).times do
 			collection = BASECOLLECT * ( 1 - ship.stat( :efficiency ) / 100.to_f )
-			collection = location.collect collection
+			collection = location.collect( ( collection / shares.length ).floor )
 			collected += ship.collect collection
 		end
 		
