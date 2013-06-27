@@ -8,12 +8,21 @@ class RubiesInSpaceRunner
 	##
 	# Intialize the runner with a generator and options
 	#
-	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 128 } } )
+	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 64 } } )
 		
 		@generator = generator
 		@options = options
 		@players = []
 		
+		join BasicCrew
+		join BasicCrew
+		join BasicCrew
+		
+		join BasicCrew
+		join BasicCrew
+		join BasicCrew
+		
+		join BasicCrew
 		join BasicCrew
 		join BasicCrew
 		
@@ -49,7 +58,16 @@ class RubiesInSpaceRunner
 					@space.get_spawn_node 
 				) 
 			)
+			ship = p.build()
+			
+			p.spawn( 
+				@space.node( 
+					@space.get_spawn_node 
+				),
+				ship
+			)
 		end
+		@active_players = @players.clone
 	end	
 	
 	##
@@ -60,29 +78,39 @@ class RubiesInSpaceRunner
 		@step = 0
 		
 		Space.log "\r\nSimulation started"
+		actions = []
 		
-		#Thread
-		loop do
-			
-			@step += 1
-			
-			players = @players.clone
-			players.each do | p |
-				p.step @step
+		bm = Benchmark.measure do
+			loop do
+				
+				@step += 1
+				
+				##
+				# Step all the players that are not busy
+				#
+				actions += @active_players.select{ | player | !actions.any? { | action | action[ :player ] == player } }
+					.map { | player | player.step @step }.flatten
+				
+				##
+				# Process all the actions we have
+				#
+				actions = actions.select { | action | 
+					action[ :action ] != nil and ( action[ :state ] = action[ :player ].process( 
+						@step, action[ :ship ], action[ :action ], action[ :time ], action[ :state ] 
+					) ) != :kill
+				}
+				
+				##
+				# Goodbye players that are deaaad
+				#
+				@active_players = @active_players.select { | player | if player.dead? then puts "\r\n~~~ #{player} died! ~~~"; false; else true end }
+		
+				break if @step == 1000000 or @active_players.length == 0
 			end
-			
-			players.each do | p |
-				p.process @step
-			end
-			
-			players.each do | p |
-				@players.delete p if p.dead?
-			end
-	
-			break if @step == 500000 or @players.length == 0
 		end
 		
-		Space.log "Simulation ended at #{ Space.stardate @step }"
+		puts ""
+		Space.log "Simulation ended at #{ Space.stardate @step } / #{ bm }"
 		
 	end
 	

@@ -26,7 +26,9 @@ class BasicCrew
 		
 		if @last_result != @ship.result
 			@last_result = @ship.result
+			puts "\r\n\r\n                ----------------------------------------------                \r\n"
 			Space.timestamped t, @last_result
+			puts "                ----------------------------------------------                \r\n\r\n"
 			
 			if @ship.result.is_a? ScanResult
 				current = @ship.position
@@ -41,7 +43,7 @@ class BasicCrew
 					connections = @ship.result.paths.map { |p| p[ :alpha ] == current ? p[ :beta ] : p[ :alpha ] }
 					others = connections.select{ |d| !@visited.include?( d ) }
 					if others.length == 0
-						Space.timestamped t, "\r\n==========================\r\nI have nowhere to go. #{ @ship }\r\n==========================\r\n\r\n"
+						Space.timestamped t, "\r\n\r\n==========================\r\nI have nowhere to go. #{ @ship }\r\n==========================\r\n\r\n"
 						
 						@visited = [ @ship.position ]
 						@ship.queue @ship.scan()

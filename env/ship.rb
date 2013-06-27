@@ -97,10 +97,20 @@ class Ship
 	
 	#
 	#
-	def travel( node )
+	def leave
 		@location.leave self if @location
+	end
+	
+	#
+	#
+	def travel( node )
 		@location = node
-		@location.join self
+	end
+	
+	#
+	#
+	def join
+		@location.join self if @location
 	end
 	
 	#
@@ -131,9 +141,10 @@ class Ship
 	##
 	#
 	#
-	def advance()
+	def advance
 		action = @actions.shift
 		@actions = [ nil ] if @actions.empty?
+		return action
 	end
 	
 	##
@@ -147,14 +158,22 @@ class Ship
 	##
 	#
 	#
-	def progress()
+	def progress
 		@action_progression += 1.to_f / @action_duration
+		return !busy?
 	end
 	
 	##
 	#
 	#
-	def clear_queue()
+	def progress_duration
+		return @action_progression * @action_duration
+	end
+	
+	##
+	#
+	#
+	def clear_queue
 		@actions = []
 	end
 	
