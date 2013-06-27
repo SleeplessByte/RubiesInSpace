@@ -74,7 +74,7 @@ class RubiesInSpaceRunner
 				p.process @step
 			end
 	
-			break if @step == 100
+			break if @step == 5000
 		end
 		
 		Space.log "Simulation ended"
