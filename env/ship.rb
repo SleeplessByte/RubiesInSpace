@@ -14,7 +14,7 @@ class Ship
 	
 		@resources = {
 			:deuterium => {
-				:value => 50,
+				:value => 500,
 				:capacity => 5000
 			}
 		}

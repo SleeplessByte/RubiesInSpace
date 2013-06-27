@@ -2,6 +2,10 @@ require 'benchmark'
 
 class Player
 	
+	BASESCAN = 10
+	BASETRAVEL = 10
+	BASEFUEL = 1
+	
 	attr_reader :crews, :ships, :time, :last_time, :secret, :progress
 	
 	#
@@ -76,7 +80,6 @@ class Player
 			
 			if ship.busy?
 				ship.progress
-				puts 'busy'
 				next
 			end
 			
@@ -101,7 +104,7 @@ class Player
 	def do_scan( t, ship, action )
 				
 		# Determine time
-		duration = 1 + [ 10 - ship.stat( :efficiency ) , -1 ].max
+		duration = 1 + [ BASESCAN - ship.stat( :efficiency ) , -1 ].max
 		ship.duration = duration
 		
 		# Determine data
@@ -115,6 +118,28 @@ class Player
 		friendlies = ships.select { |s| s.owner == ship.owner }.map { |s| s.scan() }
 		enemies = ships.select { |s| s.owner != ship.owner }.map { |s| s.scan() }
 		ship.result = ScanResult.new( t, source, environment, paths, friendlies, enemies )
+	end
+	
+	def do_travel( t, ship, action )
+				
+		location = ship.location
+		path = location.paths.find { |p| p[ :to ].identifier == action.node }
+		return unless path
+		
+		# Determine time @todo tech
+		duration = 1 + [ BASETRAVEL * ( path[ :distance ] - ship.stat( :speed ) ) , -1 ].max
+		ship.duration = duration
+		
+		# Get data @todo tech
+		depletion = BASEFUEL * duration * ( 1 - ship.stat( :efficiency ) / 100.to_f )
+		ship.travel( path[ :to ] )
+		depletion = ship.consume( depletion, :deuterium )
+		distance =  path[ :distance ]
+		source = ship.interface
+		node = action.node
+		
+		# Get result
+		ship.result = TravelResult.new( t, source, node, distance , duration, depletion )
 	end
 	
 end

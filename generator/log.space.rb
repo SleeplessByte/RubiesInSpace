@@ -31,4 +31,10 @@ class SpaceLog
 		"#{ scan.source }. I was gazing through my scanner when I looked upon the surroundings. #{ scan.environment[ :log ] } In the distance I could see #{ scan.paths.length } bodies, but they were too far to make out. #{ scan.friendlies.length - 1 } other ships of the Alliance were enjoying the view, but not for much longer as from the horizon #{ scan.enemies.length } unknown ships were closing in..."
 	end
 	
+	def self.generate_result_of_travel( travel )
+		
+		"#{ travel.source }. Pff #{ travel.distance } lightyears! That took us long enough. More than #{ travel.duration.floor } days flying. We consumed #{ travel.depletion.round } litres of deuterium. But we are finally there!"
+		
+	end
+	
 end
