@@ -3,14 +3,12 @@ require_relative 'ship.component'
 #
 #
 class Ship
-	
-	BASECOLLECT = 1
-	
+
 	#
 	#
 	class Collector < Component
 		
-		attr_reader :warmup, :power
+		attr_reader :warmup, :power, :efficiency
 		
 		##
 		#
