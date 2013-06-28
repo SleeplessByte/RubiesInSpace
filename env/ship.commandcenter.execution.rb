@@ -28,7 +28,12 @@ class Ship
 		def request_travel( t, action )
 						
 			path = @location.paths.find { |p| p[ :to ].identifier == action.node }
-			return :kill unless path
+			unless path
+				set_duration 1
+				progress
+				@action_result = nil
+				return :kill
+			end
 				
 			execution = ship.engine.prepare( t, action, path )
 			set_duration execution[ :duration ]
@@ -46,7 +51,12 @@ class Ship
 			if progress_duration > ship.engine.warmup 
 				
 				path = @location.paths.find { |p| p[ :to ].identifier == action.node }
-				return :kill unless path
+				unless path
+					set_duration 1
+					progress
+					@action_result = nil
+					return :kill
+				end
 				
 				leave
 				travel( path[ :to ] )
@@ -107,15 +117,85 @@ class Ship
 				@action_result.collected = @action_result.collected + collection
 			end
 			
-			return progress ? :finish : :continue
+			if progress
+				@action_result.finalize
+				return :kill
+			end
+			
+			return :continue
 		end
 		
 		##
 		#
 		#
-		def finish_collect( t, action )
-			@action_result.finalize
-			return :kill
+		def request_attack( t, action )
+		
+			attackee = @location.ships.find { |s| s.identifier == action.destination }
+			unless attackee
+				set_duration 1
+				progress
+				@action_result = nil
+				return :kill 
+			end
+			
+			execution = ship.weapons_rack.prepare( t, action, attackee )
+			set_duration execution[ :duration ]
+			@action_result = execution[ :result ]
+			return :pre
+		end
+		
+		##
+		#
+		#
+		def pre_attack( t, action )
+			
+			attackee = @location.ships.find { |s| s.identifier == action.destination }
+			unless attackee
+				set_duration 1
+				progress
+				@action_result.finalize
+				return :kill 
+			end
+			
+			if progress
+				set_duration 1
+				return :continue
+			end
+			return :pre
+		end
+		
+		##
+		#
+		#
+		def continue_attack( t, action )
+			attackee = @location.ships.find { |s| s.identifier == action.destination }
+			unless attackee
+				set_duration 1
+				progress
+				@action_result.finalize
+				
+				puts "", "#{ action.destination } is no longer at #{ ship } position"
+				return :kill 
+			end
+		
+		    # Attack!
+			execution = ship.weapons_rack.fire( t, action, attackee )
+			@action_result.damage = execution[ :damage ]
+			@action_result.depletion = execution[ :depletion ]
+			
+			if attackee.dead?
+				puts "", "#{ attackee } was killed in battle by #{ ship }"
+			end
+			
+			# Get the event result to abort
+			result = ship.event( execution[ :event ] )
+			unless result
+				set_duration 1
+				progress
+				@action_result.finalize
+				return :kill
+			end
+			return :continue
 		end
 		
 	end
