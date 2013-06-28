@@ -24,92 +24,92 @@ class ShipInterface
 				raise TypeError.new "That's not a command the computer will understand"
 			end
 			
-			ship.command_center.queue command
+			@component.queue command
 		end
 		
 		##
 		# Empty action queue
 		#
 		def clear_queue
-			ship.command_center.clear_queue
+			@component.clear_queue
 		end
 		
 		##
 		# Current action
 		#
 		def current_command
-			ship.command_center.current
+			@component.current
 		end
 		
 		##
 		# Get next action
 		#
 		def next_command
-			ship.command_center.next
+			@component.next
 		end
 		
 		##
 		# Get action result
 		#
 		def report
-			return nil if ship.busy?
-			return ship.command_center.report
+			return nil if @ship.busy?
+			return @component.report
 		end
 		
 		##
 		# Create travel action to node
 		#
 		def travel_command( node )
-			ShipInterface::TravelCommand.new interface, node
+			ShipInterface::TravelCommand.new @interface, node
 		end
 		
 		##
 		# Create collect action for time
 		#
 		def collect_command( duration )
-			ShipInterface::CollectCommand.new interface, duration
+			ShipInterface::CollectCommand.new @interface, duration
 		end
 		
 		##
 		# Create transfer action of amount to ship
 		#
 		def transfer_command( amount, ship )
-			ShipInterface::TransferCommand.new interface, amount, ship
+			ShipInterface::TransferCommand.new @interface, amount, ship
 		end
 		
 		##
 		# Create scan action
 		#
 		def scan_command()
-			ShipInterface::ScanCommand.new interface
+			ShipInterface::ScanCommand.new @interface
 		end
 		
 		##
 		# Create build action of item
 		#
 		def build_command( item )
-			ShipInterface::BuildCommand.new interface, item
+			ShipInterface::BuildCommand.new @interface, item
 		end
 		
 		##
 		# Create research action of item
 		#
 		def research_command( item )
-			ShipInterface::ResearchCommand.new interface, item
+			ShipInterface::ResearchCommand.new @interface, item
 		end
 		
 		##
 		# Create communicate action of data
 		#
 		def communicate_command( *data )
-			ShipInterface::CommunicateCommand.new interface, data
+			ShipInterface::CommunicateCommand.new @interface, data
 		end
 		
 		##
 		# Create attack action of data
 		#
 		def attack_command( ship )
-			ShipInterface::AttackCommand.new interface, ship
+			ShipInterface::AttackCommand.new @interface, ship
 		end
 		
 	end
