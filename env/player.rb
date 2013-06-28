@@ -118,6 +118,11 @@ class Player
 			print "\r                                                                            \r"
 			print "exec: #{ ship } do #{ do_method } on #{ Space.stardate t }"
 			result = ship.command_center.send( do_method, t, action )
+			
+			if ship.dead?
+				puts "", "Ship #{ ship } of #{ self } died on #{ do_method }"
+				return :kill
+			end
 			return result
 		end
 		
