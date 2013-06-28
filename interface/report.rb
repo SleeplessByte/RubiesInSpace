@@ -8,7 +8,7 @@ class ShipInterface
 		def initialize( timestamp, source )
 			@source = source
 			@timestamp = timestamp
-			@log = "Report #{ self.object_id } is not finalized"
+			@log = "Report #{ self.object_id } : #{ self.class.name } is not finalized"
 		end
 		
 		##

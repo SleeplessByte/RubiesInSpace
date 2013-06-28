@@ -49,4 +49,8 @@ class SpaceLog
 		
 	end
 	
+	def self.generate_result_of_attack( attack )
+		"#{ attack.source }. BAM BAM ABM #{ attack.damage } damage inflicted on #{ attack.destination } and it only depleted us #{ attack.depletion } litres of deuterium."
+	end
+	
 end
