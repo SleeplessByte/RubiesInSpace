@@ -3,8 +3,6 @@ require_relative 'spacepath'
 #
 class SpaceNode	
 		
-	attr_reader :ships	
-		
 	##
 	#
 	#
@@ -63,6 +61,12 @@ class SpaceNode
 	#
 	def leave( ship )
 		@ships.delete ship
+	end
+	
+	#
+	#
+	def ships
+		@ships.select { |s| s.alive? }
 	end
 	
 	##
