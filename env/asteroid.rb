@@ -23,6 +23,7 @@ class Asteroid < SpaceNode
 		return {
 			:type => self.class,
 			:size => @size,
+			:deuterium => @deuterium,
 		}
 	end
 	
