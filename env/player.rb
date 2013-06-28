@@ -73,11 +73,12 @@ class Player
 	# Steps the crew
 	#
 	def step( t )
-						
+				
 		actions = []
 		@last_time = 0
 		
 		@ships.each do | ship |
+			
 			next if ship.dead?
 			next if ship.busy?
 			
@@ -104,10 +105,11 @@ class Player
 	#
 	#
 	def process( t, ship, action, time, state )
-		
+		return :kill if ship.command_center.killed?
 		return :kill unless action.respond_to? :source
 		if ship.interface != action.source
 			Space.log "Is this a hacking attempt by #{ identifier }?"
+			ship.command_center.kill
 			return :kill 
 		end
 			
@@ -115,7 +117,8 @@ class Player
 		if  ship.command_center.respond_to? do_method
 			print "\r                                                                            \r"
 			print "exec: #{ ship } do #{ do_method } on #{ Space.stardate t }"
-			return ship.command_center.send( do_method, t, action )
+			result = ship.command_center.send( do_method, t, action )
+			return result
 		end
 		
 		if ship.busy?
