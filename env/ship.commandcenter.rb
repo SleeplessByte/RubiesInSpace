@@ -15,6 +15,7 @@ class Ship
 			@actions = [ nil ]
 			@action_progression = 1		
 			@action_result = nil
+			@action_killed = false
 		end
 		
 		##
@@ -42,6 +43,7 @@ class Ship
 		# Advances the action queue
 		#
 		def advance
+			@action_killed = false
 			action = @actions.shift
 			@actions = [ nil ] if @actions.empty?
 			return action
@@ -63,6 +65,22 @@ class Ship
 			return !busy?
 		end
 		
+		##
+		#
+		#
+		def kill
+			@action_progression = 1
+			@action_killed = true
+		end
+		
+		##
+		#
+		#
+		def killed?
+			@action_killed
+		end
+	
+		##
 		#
 		#
 		def busy?
