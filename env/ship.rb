@@ -47,10 +47,24 @@ class Ship
 		# The installed upgrades of the ship
 		#
 		@upgrades = {}
-
 		@data = data
-		@interface = ShipInterface.new self
 	end
+	
+	##
+	#
+	#
+	def rand( n = nil )
+		return @randomizer.rand if n.nil?
+		return @randomizer.rand n
+	end
+	
+	##
+	#
+	#
+	def bytes( n )
+		@randomizer.bytes n
+	end
+	
 	
 	##
 	# The ship identifier
@@ -93,6 +107,10 @@ class Ship
 	def donate( owner, crew )
 		@owner = owner
 		@crew = crew
+
+		@randomizer = Random.new Space.rand( 2 ** 32 )
+		@interface = ShipInterface.new self
+		
 		@crew.board @interface
 	end
 	

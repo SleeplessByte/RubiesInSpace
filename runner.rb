@@ -50,13 +50,10 @@ class RubiesInSpaceRunner
 					@space.get_spawn_node 
 				) 
 			)
-			ship = p.build()
-			
 			p.spawn( 
 				@space.node( 
 					@space.get_spawn_node 
-				),
-				ship
+				)
 			)
 		end
 		@active_players = @players.clone

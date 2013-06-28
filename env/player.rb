@@ -9,14 +9,13 @@ class Player
 	def initialize( crew )
 		
 		@constructor = crew
-		test @constructor.new 
+		test ( template = @constructor.new )
 		
 		# Create the ship
 		@ships = []
 		@crews = []
 		
-		build()
-		@secret = @crews[ 0 ].identifier
+		@secret = template.identifier
 
 		@time = 0.0
 		@last_time = 0.0
@@ -63,7 +62,8 @@ class Player
 	##
 	# Spawn the player on a node
 	#
-	def spawn( node, ship = @ships[ 0 ] )
+	def spawn( node, data = {} )
+		ship = build( data )
 		ship.command_center.travel( node )
 		ship.command_center.join
 		Space.timestamped 0, "Spawned #{ ship.identifier } on #{ ship.interface.position }"
