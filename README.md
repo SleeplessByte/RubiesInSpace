@@ -20,7 +20,7 @@ Game Rules
 ----------------------
 There are three rules:
 - You have access to the `./interface` folder. The `iship.rb` file contains a class `ShipInterface`. When your **crew** is assigned a **ship**, it will be passed on an instance of this interface. Use it to control the ship. Don't try to extend, read, send, access the internals. That's just lame.
-- If you want to use a `Randomizer`, use `Space.rand`, `Space.rand(n)` or `Space.bytes(n)`. The reason is that we can then simulate the complete game again by passing in the seed.
+- If you want to use a `Randomizer`, use `ShipInterface#rand`, `ShipInterface#rand(n)` or `ShipInterface#bytes(n)`. The reason is that we can then simulate the complete game again by passing in the seed.
 - Try to keep your code fast. In later versions you will be penalized.
 
 Participation
