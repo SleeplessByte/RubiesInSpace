@@ -41,7 +41,7 @@ class Ship
 		@components[ :reactor ] = build_reactor()
 		@components[ :scanner ] = build_scanner()
 		@components[ :collector ] = build_collector()
-		@components[ :weaponsrack ] = build_weaponsrack()
+		@components[ :weapons_rack ] = build_weapons_rack()
 		
 		##
 		# The installed upgrades of the ship
@@ -173,8 +173,8 @@ class Ship
 	##
 	# Gets the weapons rack
 	#
-	def weaponsrack
-		@components[ :weaponsrack ]
+	def weapons_rack
+		@components[ :weapons_rack ]
 	end
 	
 	##
@@ -210,7 +210,7 @@ class Ship
 	def build_collector
 		Collector.new self
 	end
-	def build_weaponsrack
+	def build_weapons_rack
 		WeaponsRack.new self
 	end
 
