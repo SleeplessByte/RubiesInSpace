@@ -40,17 +40,22 @@ class BasicCrew
 					@command_center.queue @command_center.collect_command( [ env_deut , @ship.energy_capacity - @ship.energy ].min + 20 )
 					
 				else
-				
-					connections = @last_result.paths.map { |p| p[ :alpha ] == current ? p[ :beta ] : p[ :alpha ] }
-					others = connections.select{ |d| !@visited.include?( d ) }
-					if others.length == 0
-						Space.timestamped t, "\r\n\r\n==========================\r\nI have nowhere to go. #{ @ship }\r\n==========================\r\n\r\n"
-						
-						@visited = [ @ship.position ]
-						@command_center.queue @command_center.scan_command()
-						return
+					
+					if @last_result.enemies.length > 0
+						@command_center.queue @command_center.attack_command( @last_result.enemies[ @ship.rand @last_result.enemies.length ][ :identifier ] )
+					else
+					
+						connections = @last_result.paths.map { |p| p[ :alpha ] == current ? p[ :beta ] : p[ :alpha ] }
+						others = connections.select{ |d| !@visited.include?( d ) }
+						if others.length == 0
+							Space.timestamped t, "\r\n\r\n==========================\r\nI have nowhere to go. #{ @ship }\r\n==========================\r\n\r\n"
+							
+							@visited = [ @ship.position ]
+							@command_center.queue @command_center.scan_command()
+							return
+						end
+						@command_center.queue @command_center.travel_command( others[ @ship.rand others.length ] )
 					end
-					@command_center.queue @command_center.travel_command( others[ Space.rand others.length ] )
 				end
 			else
 				@visited.push @ship.position
@@ -63,7 +68,7 @@ class BasicCrew
 	#
 	#
 	def event( event )
-	
+		return true
 	end
 	
 end
