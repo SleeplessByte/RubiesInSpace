@@ -8,19 +8,12 @@ class ShipInterface
 	
 	class ComponentInterface
 
-		def initialize( ship, interface )
+		def initialize( ship, component, interface )
 			@ship = ship
 			@interface = interface
+			@component = component
 			self.freeze
 		end	
-		
-		def ship
-			@ship
-		end
-		
-		def interface
-			@interface
-		end
 		
 	end
 	
