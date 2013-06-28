@@ -200,9 +200,27 @@ class Ship
 	#
 	def scan( scanner = nil )
 		return {
-			:owner => owner.identifier,
+		    :identifier => identifier,
+			:owner => owner.identifier
 			#:components => foreach component, scan it!
 		}
+	end
+	
+	##
+	#
+	#
+	def event( event )
+
+		#check if traveling TODO
+		non_abortable = false
+		result = @crew.event event
+		
+		if non_abortable or result
+			return true
+		end
+
+		command_center.kill
+		return false
 	end
 	
 	##
