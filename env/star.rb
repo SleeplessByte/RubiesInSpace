@@ -27,7 +27,6 @@ class Star < SpaceNode
 			:size => @size,
 			:temperature => @temperature,
 			:age => @age,
-			:deuterium => @deuterium,
 			:rate => @rate
 		}
 		result[ :log ] = SpaceLog.generate( :scan, :star, result, scanner )
