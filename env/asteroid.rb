@@ -19,16 +19,17 @@ class Asteroid < SpaceNode
 	
 	#
 	#
-	def scan( tech = {} )
+	def scan( scanner = nil )
 		return {
 			:type => self.class,
 			:size => @size,
 		}
 	end
 	
-	#
+	# TODO k_m
 	#
 	def collect( c )
+		
 		collection = [ c, @deuterium ].min
 		@deuterium -= collection
 		return collection

@@ -31,7 +31,7 @@ class Planet < SpaceNode
 		end
 		
 		unless @building.is_a? Building
-			rais TypeError.new "I can only build buildings!"
+			raise TypeError.new "I can only build buildings!"
 		end
 		
 		@building = building
@@ -39,7 +39,7 @@ class Planet < SpaceNode
 	
 	#
 	#
-	def scan( tech = {} )
+	def scan( scanner = nil )
 		result = {
 			:type => self.class,
 			:size => @size,
@@ -47,7 +47,7 @@ class Planet < SpaceNode
 			:building => @building.nil? ? nil : @building.scan(), 
 			:deuterium => @deuterium
 		}
-		result[ :log ] = SpaceLog.generate( :scan, :planet, result, tech )
+		result[ :log ] = SpaceLog.generate( :scan, :planet, result, scanner )
 		return result
 	end
 	

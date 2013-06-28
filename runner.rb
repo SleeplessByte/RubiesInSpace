@@ -81,11 +81,7 @@ class RubiesInSpaceRunner
 				##
 				# Step all the players that are not busy
 				#
-				actions = ( actions + ( 
-						@active_players.select{ | player | !actions.any? { | action | action[ :player ] == player } }
-							.map { | player | player.step @step } 
-					) 
-				).flatten
+				actions = ( actions + ( @active_players.map { | player | player.step @step } ) ).flatten
 				
 				##
 				# Process all the actions we have

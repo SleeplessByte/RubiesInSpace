@@ -1,10 +1,10 @@
 require_relative 'asteroid'
 require_relative 'star'
 require_relative 'planet'
+require_relative 'planet.lab'
+require_relative 'planet.factory'
 require_relative 'spacenode'
 require_relative 'spacepath'
-require_relative 'lab'
-require_relative 'factory'
 require 'graph'
 
 ##
@@ -141,7 +141,7 @@ class Space
 	##
 	# Get a random spawn node
 	#
-	def get_spawn_node()
+	def get_spawn_node
 		planets = @nodes.values.select { | n | n.is_a? Planet }
 		return planets[ rand planets.length ].identifier
 	end
@@ -180,7 +180,8 @@ class Space
 	##
 	# Gets a random number for a range or max value
 	#
-	def self.rand( arg )
+	def self.rand( arg = nil )
+		return @@randomizer.rand if arg.nil?
 		return @@randomizer.rand arg
 	end
 	
@@ -195,7 +196,7 @@ class Space
 	#
 	#
 	def self.timestamped( t, args )
-		puts "Stardate #{stardate t }: #{ args }"
+		log "Stardate #{stardate t }: #{ args }"
 	end
 	
 	#

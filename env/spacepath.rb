@@ -41,7 +41,7 @@ class SpacePath
 	##
 	#
 	#
-	def scan( tech = {} )
+	def scan( scanner = nil )
 		return {
 			:alpha => @alpha.identifier,
 			:beta => @beta.identifier,

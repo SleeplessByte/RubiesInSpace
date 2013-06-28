@@ -21,22 +21,23 @@ class Star < SpaceNode
 		
 	end
 	
-	def scan( tech = {} )
+	def scan( scanner = nil )
 		result = {
 			:type => self.class,
 			:size => @size,
 			:temperature => @temperature,
 			:age => @age,
-			:deuterium => @deuterium
+			:deuterium => @deuterium,
+			:rate => @rate
 		}
-		result[ :log ] = SpaceLog.generate( :scan, :star, result, tech )
+		result[ :log ] = SpaceLog.generate( :scan, :star, result, scanner )
 		return result
 	end
 	
 	#
 	#
 	def collect( c ) 
-		return c
+		return [ c, @rate ].min
 	end
 	
 end 

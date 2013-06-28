@@ -49,8 +49,8 @@ class SpaceNode
 	##
 	#
 	#
-	def scan_paths( tech = {} )
-		@connections.map { | p | p.scan( tech ) }
+	def scan_paths( scanner = nil )
+		@connections.map { | p | p.scan( scanner ) }
 	end
 	
 	#
@@ -71,5 +71,13 @@ class SpaceNode
 	def to_s
 		"#{ self.class.name[ 0 ] }#{ self.object_id.to_s[ -4..-1 ] }"
 	end
+		
+	##
+	#
+	#
+	def collect( c )
+		return 0
+	end
+	
 	
 end
