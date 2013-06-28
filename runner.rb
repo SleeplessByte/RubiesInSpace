@@ -8,7 +8,7 @@ class RubiesInSpaceRunner
 	##
 	# Intialize the runner with a generator and options
 	#
-	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 16 } } )
+	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 8 } } )
 		
 		@generator = generator
 		@options = options
@@ -97,7 +97,7 @@ class RubiesInSpaceRunner
 				#
 				@active_players = @active_players.select { | player | if player.dead? then puts "\r\n~~~ #{player} died! ~~~"; false; else true end }
 		
-				break if @step == 1000000 or @active_players.length == 0
+				break if @step == 1000000 or @active_players.length <= 1
 			end
 			
 		end
