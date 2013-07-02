@@ -29,7 +29,7 @@ At this moment the best way is to **Fork** this repo and provide a new **Crew** 
 
 Game World
 ----------------------
-See the wiki
+See the [wiki](https://github.com/Derkje-J/RubiesInSpace/wiki/Home)
 
 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
