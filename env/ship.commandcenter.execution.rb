@@ -178,7 +178,7 @@ class Ship
 				return :kill 
 			end
 		
-		    # Attack!
+			# Attack!
 			execution = ship.weapons_rack.fire( t, action, attackee )
 			@action_result.damage = execution[ :damage ]
 			@action_result.depletion = execution[ :depletion ]

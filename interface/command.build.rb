@@ -1,18 +1,22 @@
 require_relative 'command'
 
-class ShipInterface
+class Ship
 
-	class BuildCommand < Command
+	class Interface
 
-		attr_reader :item
-		
-		##
-		#
-		#
-		def initialize( source, item )
-			super source
-			@item = item
+		class BuildCommand < Command
+
+			attr_reader :item
+			
+			##
+			#
+			#
+			def initialize( source, item )
+				super source
+				@item = item
+			end
 		end
+		
 	end
 	
 end

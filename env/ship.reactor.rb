@@ -26,6 +26,8 @@ class Ship
 		#
 		def fly( t, action )
 						
+			# TODO something with engine power. More power > more fuel
+			#
 			depletion = BASEFUEL * ( 1 - @efficiency / 100.to_f )
 			depletion = ship.consume( depletion, :deuterium )
 			return { :depletion => depletion }

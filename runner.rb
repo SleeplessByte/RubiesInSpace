@@ -8,12 +8,13 @@ class RubiesInSpaceRunner
 	##
 	# Intialize the runner with a generator and options
 	#
-	def initialize( generator = BasicSpaceGenerator, options = { :universe => { :size => 8 } } )
+	def initialize( generator = Generators::Universe::Basic, options = { :universe => { :size => 32 } } )
 		
 		@generator = generator
 		@options = options
 		@players = []
 		
+		join BasicCrew
 		join BasicCrew
 		join BasicCrew
 		join BasicCrew
@@ -42,7 +43,7 @@ class RubiesInSpaceRunner
 		@options[ :secrets ] = @players.map { | p | p.secret }
 		@space = @generator.build @options 
 		
-		Space.log "\r\nSpawning players"
+		Space::Universe.log "\r\nSpawning players"
 		
 		@players.each do | p | 
 			p.spawn( 
@@ -50,11 +51,11 @@ class RubiesInSpaceRunner
 					@space.get_spawn_node 
 				) 
 			)
-			p.spawn( 
-				@space.node( 
-					@space.get_spawn_node 
-				)
-			)
+			#p.spawn( 
+			#	@space.node( 
+			#		@space.get_spawn_node 
+			#	)
+			#)
 		end
 		@active_players = @players.clone
 	end	
@@ -66,7 +67,7 @@ class RubiesInSpaceRunner
 		
 		@step = 0
 		
-		Space.log "\r\nSimulation started"
+		Space::Universe.log "\r\nSimulation started"
 		actions = []
 		
 		bm = Benchmark.measure do
@@ -83,7 +84,7 @@ class RubiesInSpaceRunner
 				##
 				# Process all the actions we have
 				#
-				actions = actions.sort_by { Space.rand }.select { | action | 
+				actions = actions.sort_by { Space::Universe.rand }.select { | action | 
 					action[ :action ] != nil and ( action[ :state ] = action[ :player ].process( 
 						@step, action[ :ship ], action[ :action ], action[ :time ], action[ :state ] 
 					) ) != :kill
@@ -95,6 +96,7 @@ class RubiesInSpaceRunner
 				@active_players = @active_players.select { | player | if player.dead? then puts "\r\n~~~ #{player} died! ~~~"; false; else true end }
 		
 				break if @step == 1000000 or @active_players.length <= 1
+				sleep( 0.1 )
 			end
 			
 		end
@@ -102,7 +104,7 @@ class RubiesInSpaceRunner
 		
 		
 		puts ""
-		Space.log "Simulation ended at #{ Space.stardate @step } / #{ bm } / #{ @active_players.length  } standing"
+		Space::Universe.log "Simulation ended at #{ Space::Universe.stardate @step } / #{ bm } / #{ @active_players.length  } standing"
 		
 	end
 	

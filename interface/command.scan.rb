@@ -1,9 +1,13 @@
 require_relative 'command'
 
-class ShipInterface
+class Ship
 
-	class ScanCommand < Command
+	class Interface
+	
+		class ScanCommand < Command
 
+		end
+		
 	end
 	
 end

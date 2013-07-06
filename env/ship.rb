@@ -108,8 +108,8 @@ class Ship
 		@owner = owner
 		@crew = crew
 
-		@randomizer = Random.new Space.rand( 2 ** 32 )
-		@interface = ShipInterface.new self
+		@randomizer = Random.new Space::Universe.rand( 2 ** 32 )
+		@interface = Interface.new self
 		
 		@crew.board @interface
 	end
@@ -200,7 +200,7 @@ class Ship
 	#
 	def scan( scanner = nil )
 		return {
-		    :identifier => identifier,
+			:identifier => identifier,
 			:owner => owner.identifier
 			#:components => foreach component, scan it!
 		}

@@ -28,13 +28,13 @@ class BasicCrew
 		if @last_result != @ship.report
 			@last_result = @ship.report
 			puts "\r\n\r\n                ----------------------------------------------                \r\n"
-			Space.timestamped t, @last_result
+			Space::Universe.timestamped t, @last_result
 			puts "                ----------------------------------------------                \r\n\r\n"
 			
-			if @last_result.is_a? ShipInterface::ScanReport
+			if @last_result.is_a? Ship::Interface::ScanReport
 				current = @ship.position
 				
-				if @ship.energy_ratio < 0.8 and ( @last_result.environment[ :type ] == Star or ( !@last_result.environment[ :deuterium ].nil? and not @last_result.environment[ :deuterium ] <= 20 ) )
+				if @ship.energy_ratio < 0.8 and ( @last_result.environment[ :type ] == Space::Star or ( !@last_result.environment[ :deuterium ].nil? and not @last_result.environment[ :deuterium ] <= 20 ) )
 				
 					env_deut = @last_result.environment[ :deuterium ] || @ship.energy_capacity
 					@command_center.queue @command_center.collect_command( [ env_deut , @ship.energy_capacity - @ship.energy ].min + 20 )
@@ -48,7 +48,7 @@ class BasicCrew
 						connections = @last_result.paths.map { |p| p[ :alpha ] == current ? p[ :beta ] : p[ :alpha ] }
 						others = connections.select{ |d| !@visited.include?( d ) }
 						if others.length == 0
-							Space.timestamped t, "\r\n\r\n==========================\r\nI have nowhere to go. #{ @ship }\r\n==========================\r\n\r\n"
+							Space::Universe.timestamped t, "\r\n\r\n==========================\r\nI have nowhere to go. #{ @ship }\r\n==========================\r\n\r\n"
 							
 							@visited = [ @ship.position ]
 							@command_center.queue @command_center.scan_command()

@@ -2,22 +2,26 @@ require_relative 'iship.icomponent'
 
 #
 #
-class ShipInterface
+class Ship
+
+	class Interface
 	
-	#
-	#
-	class Engine < ComponentInterface
-		
-		def warmup
-			@component.warmup
-		end
-		
-		def power
-			@component.power
-		end
-		
-		def cooldown
-			@component.cooldown
+		#
+		#
+		class Engine < ComponentShip
+			
+			def warmup
+				@component.warmup
+			end
+			
+			def power
+				@component.power
+			end
+			
+			def cooldown
+				@component.cooldown
+			end
+			
 		end
 		
 	end

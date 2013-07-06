@@ -37,7 +37,7 @@ class Ship
 			paths = location.scan_paths( self )		
 			friendlies = ships.select { |s| s.owner == ship.owner }.map { |s| s.scan( self ) }
 			enemies = ships.select { |s| s.owner != ship.owner }.map { |s| s.scan( self ) }
-			result = ShipInterface::ScanReport.new( 
+			result = Interface::ScanReport.new( 
 				t, ship.interface, environment, paths, friendlies, enemies 
 			)
 			

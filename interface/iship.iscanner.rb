@@ -2,16 +2,20 @@ require_relative 'iship.icomponent'
 
 #
 #
-class ShipInterface
+class Ship
+
+	class Interface
 	
-	#
-	#
-	class Scanner < ComponentInterface
-				
-		def efficiency
-			@component.efficiency
+		#
+		#
+		class Scanner < ComponentShip
+					
+			def efficiency
+				@component.efficiency
+			end
+			
 		end
-		
+	
 	end
 	
 end

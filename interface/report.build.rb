@@ -1,13 +1,17 @@
 require_relative 'report'
 
-class ShipInterface
+class Ship
 
-	class  BuildReport < CommandReport
-		attr_reader :item
-		
-		def initialize( source, item )
-			super source
-			@item = item
+	class Interface
+
+		class BuildReport < CommandReport
+			attr_reader :item
+			
+			def initialize( source, item )
+				super source
+				@item = item
+			end
+			
 		end
 		
 	end

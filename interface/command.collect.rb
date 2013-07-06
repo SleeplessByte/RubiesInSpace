@@ -1,16 +1,20 @@
 require_relative 'command'
 
-class ShipInterface
+class Ship
 
-	class CollectCommand < Command
+	class Interface
 
-		attr_reader :duration
-	
-		def initialize( source, duration )
-			super source
-			@duration = duration
-		end
+		class CollectCommand < Command
+
+			attr_reader :duration
 		
-	end
+			def initialize( source, duration )
+				super source
+				@duration = duration
+			end
+			
+		end
 
+	end
+	
 end

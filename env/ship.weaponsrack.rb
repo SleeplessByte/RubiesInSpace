@@ -68,10 +68,10 @@ class Ship
 		def prepare( t, action, target )
 			
 			duration = @warmup
-			result = ShipInterface::AttackReport.new( 
+			result = Interface::AttackReport.new( 
 				t, ship.interface, target.interface, 0, 0
 			)
-			target_event = SpaceEvent::AttackIncoming.new(
+			target_event = Space::Event::AttackIncoming.new(
 				t, ship.identifier, 0
 			)
 			target.event target_event
@@ -92,13 +92,13 @@ class Ship
 			damage = results.map { |r| r[ :damage ] }.inject( 0, :+ )
 			
 			# Define the target attack event
-			target_event = SpaceEvent::AttackIncoming.new(
+			target_event = Space::Event::AttackIncoming.new(
 				t, ship.identifier, 0
 			)
 			target.event target_event
 			
 			# Define local attack event
-			event = SpaceEvent::AttackOutgoing.new(
+			event = Space::Event::AttackOutgoing.new(
 				t, target.identifier, damage, depletion
 			)
 			return {

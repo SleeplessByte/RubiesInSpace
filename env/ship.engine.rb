@@ -38,7 +38,7 @@ class Ship
 			
 			duration = ( BASETRAVEL * path[ :distance ] / @power.to_f ).round 
 			distance = path[ :distance ]
-			result = ShipInterface::TravelReport.new( 
+			result = Interface::TravelReport.new( 
 				t, ship.interface, action.node, distance, duration, 0 
 			)
 		

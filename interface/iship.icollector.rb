@@ -2,22 +2,26 @@ require_relative 'iship.icomponent'
 
 #
 #
-class ShipInterface
+class Ship
+
+	class Interface
 	
-	#
-	#
-	class Collector < ComponentInterface
-		
-		def warmup
-			@component.warmup
-		end
-		
-		def power
-			@component.power
-		end
-		
-		def efficiency
-			@component.efficiency
+		#
+		#
+		class Collector < ComponentShip
+			
+			def warmup
+				@component.warmup
+			end
+			
+			def power
+				@component.power
+			end
+			
+			def efficiency
+				@component.efficiency
+			end
+			
 		end
 		
 	end

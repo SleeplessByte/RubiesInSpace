@@ -1,15 +1,20 @@
 require_relative 'report'
 
-class ShipInterface
+class Ship
 
-	class ResearchReport < CommandReport
-	
-		attr_reader :item
+	class Interface
+
+		class ResearchReport < CommandReport
 		
-		def initialize( timestamp, source, item )
-			super timestamp, source
-			@item = item
+			attr_reader :item
+			
+			def initialize( timestamp, source, item )
+				super timestamp, source
+				@item = item
+			end
+			
 		end
 		
 	end
+	
 end

@@ -1,18 +1,22 @@
 require_relative 'command'
 
-class ShipInterface
+class Ship
 
-	class TransferCommand < Command
+	class Interface
 
-		attr_reader :destination, :amount
-		
-		def intialize( source, destination, amount )
+		class TransferCommand < Command
+
+			attr_reader :destination, :amount
 			
-			super source
-			@destination = destination
-			@amount = amount
+			def intialize( source, destination, amount )
+				
+				super source
+				@destination = destination
+				@amount = amount
+				
+			end
 			
 		end
-		
 	end
+	
 end

@@ -1,7 +1,10 @@
+
 #
 #
 class Ship
+
 	class Component		
+	
 		def initialize( ship )
 			@ship = ship
 		end
@@ -10,5 +13,7 @@ class Ship
 		def ship
 			@ship
 		end
+		
 	end
+	
 end

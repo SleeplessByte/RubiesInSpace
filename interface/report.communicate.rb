@@ -1,15 +1,19 @@
 require_relative 'report'
 
-class ShipInterface
+class Ship
 
-	class CommunicateReport < CommandReport
-	
-		attr_reader :depletion
+	class Interface
+
+		class CommunicateReport < CommandReport
 		
-		def initialize( timestamp, source, depletion )
-			super timestamp, source
-			@depletion = depletion
+			attr_reader :depletion
+			
+			def initialize( timestamp, source, depletion )
+				super timestamp, source
+				@depletion = depletion
+			end
+			
 		end
-		
 	end
+	
 end

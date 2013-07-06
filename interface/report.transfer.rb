@@ -1,24 +1,29 @@
 require_relative 'report'
 
-class ShipInterface
+class Ship
 
-	class TransferReport < CommandReport
-	
-		attr_reader :destination, :amount, :transferred
+	class Interface
+
+		class TransferReport < CommandReport
 		
-		def intialize( timestamp, source, destination, amount, transferred )
-			super timestamp, source
+			attr_reader :destination, :amount, :transferred
 			
-			@transferred = transferred
-			@amount = amount
-			@source = source
-			@destination = destination
+			def intialize( timestamp, source, destination, amount, transferred )
+				super timestamp, source
+				
+				@transferred = transferred
+				@amount = amount
+				@source = source
+				@destination = destination
+				
+			end
 			
-		end
-		
-		def efficiency
-			@transferred / @amount.to_f
+			def efficiency
+				@transferred / @amount.to_f
+			end
+			
 		end
 		
 	end
+	
 end

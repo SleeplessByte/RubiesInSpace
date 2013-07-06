@@ -66,7 +66,7 @@ class Player
 		ship = build( data )
 		ship.command_center.travel( node )
 		ship.command_center.join
-		Space.timestamped 0, "Spawned #{ ship.identifier } on #{ ship.interface.position }"
+		Space::Universe.timestamped 0, "Spawned #{ ship.identifier } on #{ ship.interface.position }"
 	end
 	
 	##
@@ -108,7 +108,7 @@ class Player
 		return :kill if ship.command_center.killed?
 		return :kill unless action.respond_to? :source
 		if ship.interface != action.source
-			Space.log "Is this a hacking attempt by #{ identifier }?"
+			Space::Universe.log "Is this a hacking attempt by #{ identifier }?"
 			ship.command_center.kill
 			return :kill 
 		end
@@ -116,7 +116,7 @@ class Player
 		do_method = "#{state}_#{ action.class.name.downcase.sub( 'command', '' ).split( ':' ).last }"
 		if  ship.command_center.respond_to? do_method
 			print "\r                                                                            \r"
-			print "exec: #{ ship } do #{ do_method } on #{ Space.stardate t }"
+			print "exec: #{ ship } do #{ do_method } on #{ Space::Universe.stardate t }"
 			result = ship.command_center.send( do_method, t, action )
 			
 			if ship.dead?
@@ -128,12 +128,12 @@ class Player
 		
 		if ship.busy?
 			print "\r                                                                            \r"
-			print "busy: #{ ship } do #{ do_method } on #{ Space.stardate t }"
+			print "busy: #{ ship } do #{ do_method } on #{ Space::Universe.stardate t }"
 			return ship.command_center.progress ? :finish : :continue
 		end
 		
 		print "\r                                                                            \r"
-		print "kill: #{ ship } do #{ do_method } on #{ Space.stardate t }"
+		print "kill: #{ ship } do #{ do_method } on #{ Space::Universe.stardate t }"
 		return :kill
 	end
 	

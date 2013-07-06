@@ -27,7 +27,7 @@ class Ship
 		#
 		def request( t, action )
 			duration = action.duration
-			result = ShipInterface::CollectReport.new( t, ship.interface , 0 )
+			result = Interface::CollectReport.new( t, ship.interface , 0 )
 			return { 
 				:duration => duration,
 				:result => result

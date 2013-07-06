@@ -1,19 +1,25 @@
-##
-class ShipInterface
+class Ship
 
-	# weapons
-	# upgrades
-	# tech
-	# ...
-	
-	class ComponentInterface
+	##
+	#
+	#
+	class Interface
 
-		def initialize( ship, component, interface )
-			@ship = ship
-			@interface = interface
-			@component = component
-			self.freeze
-		end	
+		# weapons
+		# upgrades
+		# tech
+		# ...
+		
+		class ComponentShip
+
+			def initialize( ship, component, interface )
+				@ship = ship
+				@interface = interface
+				@component = component
+				self.freeze
+			end	
+			
+		end
 		
 	end
 	

@@ -1,16 +1,20 @@
 require_relative 'command'
 
-class ShipInterface
+class Ship
 
-	class TravelCommand < Command
+	class Interface
 
-		attr_reader :node
-		
-		def initialize( source, node )
-			super source
-			@node = node
+		class TravelCommand < Command
+
+			attr_reader :node
+			
+			def initialize( source, node )
+				super source
+				@node = node
+			end
+			
 		end
-		
-	end
 
+	end
+	
 end

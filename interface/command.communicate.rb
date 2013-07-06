@@ -1,15 +1,19 @@
 require_relative 'command'
 
-class ShipInterface
+class Ship
 
-	class CommunicateCommand < Command
+	class Interface
 
-		attr_reader :data
-		
-		def initialize( source, data )
-			super source
-			@data = data
+		class CommunicateCommand < Command
+
+			attr_reader :data
+			
+			def initialize( source, data )
+				super source
+				@data = data
+			end
+			
 		end
-		
 	end
+
 end
