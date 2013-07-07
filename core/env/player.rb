@@ -2,7 +2,8 @@ require 'benchmark'
 
 class Player
 		
-	attr_reader :crews, :ships, :time, :last_time, :secret, :progress
+	attr_reader :crews, :time, :last_time, :secret, :progress
+	attr_accessor :id, :ships
 	
 	#
 	#
@@ -19,6 +20,7 @@ class Player
 
 		@time = 0.0
 		@last_time = 0.0
+		@id = identifier
 	end
 	
 	#
@@ -136,6 +138,17 @@ class Player
 		print "kill: #{ ship } do #{ do_method } on #{ Space::Universe.stardate t }"
 		return :kill
 	end
+
+	##
+	#
+	#
+	def snapshot
+		snapshot = self.clone
+		snapshot.ships = self.ships.map{ |ship| ship.snapshot }
+		snapshot.id = self.identifier
+		puts self.identifier
+		return snapshot
+	end
 	
 	##
 	#
@@ -143,5 +156,4 @@ class Player
 	def to_s
 		"Player #{ identifier }"
 	end
-	
 end

@@ -223,6 +223,12 @@ class Ship
 		return false
 	end
 	
+	def snapshot
+		snapshot = self.clone
+		#snapshot.components.map! { |c| c.snapshot }
+		return snapshot
+	end
+	
 	##
 	# Returns the string representation
 	#
