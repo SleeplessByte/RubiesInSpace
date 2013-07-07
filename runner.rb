@@ -5,6 +5,8 @@ Dir[ File.join( File.dirname(__FILE__), 'crew', '*.rb' )].each { |file| require 
 
 class RubiesInSpaceRunner
 	
+	attr_reader :players, :universe, :instance
+	
 	##
 	# Intialize the runner with a generator and options
 	#
@@ -13,14 +15,9 @@ class RubiesInSpaceRunner
 		@generator = generator
 		@options = options
 		@players = []
+		@runner = create_simulation
 		
-		join BasicCrew
-		join BasicCrew
-		join BasicCrew
-		join BasicCrew
-		
-		create
-		simulate
+		@instance = Instance.new
 	end
 	
 	##
@@ -32,6 +29,12 @@ class RubiesInSpaceRunner
 			raise "Can't instantiate that crew"
 		end
 		
+		if @instance.created?
+			raise "Can't join after creation"
+		elsif @instance.active?
+			raise "Can't join while running"
+		end
+		
 		@players.push Player.new( crew )
 	end
 	
@@ -41,73 +44,168 @@ class RubiesInSpaceRunner
 	def create
 		
 		@options[ :secrets ] = @players.map { | p | p.secret }
-		@space = @generator.build @options 
+		@universe = @generator.build @options 
 		
 		Space::Universe.log "\r\nSpawning players"
 		
 		@players.each do | p | 
 			p.spawn( 
-				@space.node( 
-					@space.get_spawn_node 
+				@universe.node( 
+					@universe.get_spawn_node 
 				) 
 			)
 			#p.spawn( 
-			#	@space.node( 
-			#		@space.get_spawn_node 
+			#	@universe.node( 
+			#		@universe.get_spawn_node 
 			#	)
 			#)
 		end
-		@active_players = @players.clone
+		@instance.players = @players.clone
+		@instance.create
 	end	
 	
 	##
 	#
 	#
-	def simulate
+	def create_simulation
+	
+		Fiber.new do |instance|
 		
-		@step = 0
+			actions = []
 		
-		Space::Universe.log "\r\nSimulation started"
-		actions = []
-		
-		bm = Benchmark.measure do
-			
 			loop do
-				
-				@step += 1
+			
+				instance.step += 1
 				
 				##
 				# Step all the players that are not busy
 				#
-				actions = ( actions + ( @active_players.map { | player | player.step @step } ) ).flatten
+				actions = ( actions + ( instance.players.map { | player | player.step instance.step } ) ).flatten
 				
 				##
 				# Process all the actions we have
 				#
 				actions = actions.sort_by { Space::Universe.rand }.select { | action | 
 					action[ :action ] != nil and ( action[ :state ] = action[ :player ].process( 
-						@step, action[ :ship ], action[ :action ], action[ :time ], action[ :state ] 
+						instance.step, action[ :ship ], action[ :action ], action[ :time ], action[ :state ] 
 					) ) != :kill
 				}
 				
 				##
 				# Goodbye players that are deaaad
 				#
-				@active_players = @active_players.select { | player | if player.dead? then puts "\r\n~~~ #{player} died! ~~~"; false; else true end }
+				instance.players = instance.players.select { | player | if player.dead? then puts "\r\n~~~ #{player} died! ~~~"; false; else true end }
 		
-				break if @step == 1000000 or @active_players.length <= 1
-				sleep( 0.1 )
+				break if instance.step == 1000000 or instance.players.length <= 1 or not instace.active?
+				Fiber.yield instance.step if instance.paused?
 			end
 			
+			instance.step
 		end
-		
-		
-		
-		puts ""
-		Space::Universe.log "Simulation ended at #{ Space::Universe.stardate @step } / #{ bm } / #{ @active_players.length  } standing"
-		
 	end
 	
-end
+	##
+	#
+	#
+	def simulate
+		
+		@instance.run
+		puts @instance.step
+		
+		Space::Universe.log "\r\nSimulation started"
 
-RubiesInSpaceRunner.new
+		bm = Benchmark.measure do
+			@runner.resume @instance
+		end
+
+		puts ""
+		Space::Universe.log "Simulation ended at #{ Space::Universe.stardate @instance.step } / #{ bm } / #{ @instance.players.length  } standing"
+		
+		@instance.abort
+	end
+	
+	##
+	#
+	#
+	def pause
+		return @instance.pause
+	end
+	
+	##
+	#
+	#
+	def resume
+		if @instance.resume
+			@runner.resume @instance
+			return true
+		end
+		return false
+	end
+	
+	##
+	#
+	#
+	def abort
+		if @instance.running?
+			@instance.abort
+		end
+	end
+		
+	class Instance
+		attr_accessor :step, :players
+		attr_reader :state
+		
+		def running?
+			@state === :running
+		end
+		
+		def aborted?
+			@state === :aborted
+		end
+		
+		def paused?
+			@state === :paused
+		end
+		
+		def created?
+			@state === :created
+		end
+		
+		def active?
+			paused? or running?
+		end
+		
+		def create
+			@state = :created
+		end
+		
+		def abort
+			@state = :abort
+		end
+		
+		def run
+			if created?
+				@state = :running
+				@step = 0
+				return true
+			end
+			return false
+		end
+		
+		def pause
+			if running?
+				@state = :pause
+				return true
+			end
+			return false
+		end
+		
+		def resume
+			if paused?
+				@state = :resume
+				return true
+			end
+			return false
+		end
+	end
+end
