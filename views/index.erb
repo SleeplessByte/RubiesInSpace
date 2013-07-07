@@ -1,0 +1,36 @@
+<h1>Rubies In Space</h1>
+<p><%= username %>, you are looking at the overview page for the <a href="https://github.com/Derkje-J/RubiesInSpace">Rubies in Space programming challenge <i class="icon-external-link "></i></a>. This is a simple tool to create a game between multiple players and see the simulation as it is happening. The <a href="/crews">crews available</a> are those placed in the <code>./crew</code> folder that reside in the <code>module Crews</code> module.</p>
+<p>The simulation is currently <%= simstate %>.</p>
+
+<form id="snapshot" class="form-horizontal" method="get">
+		
+	<fieldset>
+		<legend>Snapshot Status</legend>
+		
+		<div class="control-group">
+			<label class="control-label" for="stardate">Progression</label>
+			<div class="controls">
+				<a class="btn" href="/" title="Refresh" id="stardate"><i class="icon-refresh"></i></a> 
+				<span class="help-inline">Stardate <%= Space::Universe.stardate @snapshot.step %> (#<%= @snapshot.step %>)</span>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="stardate">Active Players</label>
+			<div class="controls">
+				<% if can_configure? %> 
+				<a class="btn btn-primary" href="/players/join" title="Add a player"><i class="icon-plus icon-white"></i></a>
+				<% end %>
+				<ul class="players">
+					<% @snapshot.players.each do |player| %>
+						<li><a class="btn" href="/player/<%= player.id %>"><i class="icon-user"></i> <%= player.id %></a></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>	
+		
+	</fieldset>
+	
+</form>
+
+<%= erb :footer %>

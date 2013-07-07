@@ -1,0 +1,13 @@
+<h1>Available Crews</h1>
+<p>The <a href="/crews">crews available</a> are those placed in the <code>./crew</code> folder that reside in the <code>module Crews</code> module. Add new crews to this folder if you want them to show up here. When you <a href="/players/join">add a player</a> you will be able to select any crew from the list below.</p>
+
+<ul class="crews">
+	<% get_crews.each do | crew | 
+		( chain = crew.name.split( '::' ) ).shift
+		crew = chain.join( '::' ) 
+	%>
+	<li><%= crew %></li>
+	<% end %>
+</ul>
+
+ <a href="/players/join">Add Player</a> | <a href="/players">All Players</a>

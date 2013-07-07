@@ -1,0 +1,29 @@
+<h1>Add a player</h1>
+<p>Until the simulation is <a href="/simulation/">started</a>, new players can join. A player starts with a crew. The <a href="/crews">crews available</a> are those placed in the <code>./crew</code> folder that reside in the <code>module Crews</code> module. Add new crews to this folder if you want them to show up here.</p>
+
+<form class="form-horizontal" method="post" action="/players">
+		
+	<fieldset>
+
+		<div class="control-group">
+			<label class="control-label" for="crew">Crew</label>
+			<div class="controls">
+				<select id="crew" name="crew">
+					<option value="">Select a crew</option>
+					<% get_crews.each do | crew | 
+						( chain = crew.name.split( '::' ) ).shift
+						crew = chain.join( '::' )
+					%>
+					<option value="<%= crew %>"><%= crew %></option>
+					<% end %>
+				</select>
+			</div>
+		</div>
+		
+		<div class="form-actions">
+			<input type="submit" class="btn btn-primary" value="Add" <%= 'disabled' unless can_configure? %> />
+		</div>
+		
+		<a href="/players">All Players</a> | <a href="/crews">Crews</a>
+	</fieldset>
+</form>

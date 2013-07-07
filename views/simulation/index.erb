@@ -1,0 +1,52 @@
+<h1>Simulation</h1>
+<p>The simulation is currently <%= simstate %>.</p>
+
+<form id="simulation" class="form-horizontal" method="post">
+		
+	<fieldset>
+		<legend>Players</legend>
+		<p>
+			Start by adding players to the simulation. The players consist of a single ship with a pre-programmed crew. These ships with their crews make up the players on which the simulation will run. 
+		</p>
+				
+		<div class="control-group">
+			<label class="control-label">Joined</label>
+			<div class="controls">
+				<% if can_configure? %> 
+				<a class="btn btn-primary" href="/players/join" title="Add a player"><i class="icon-plus icon-white"></i></a>
+				<% end %>
+				
+				<ul class="players">
+					<% $runner.players.each do |player| %>
+						<li><a class="btn" href="/player/<%= player.id %>"><i class="icon-user"></i> <%= player.identifier %></a></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>	
+		
+	</fieldset>	
+		
+	<fieldset>
+		<legend>Universe</legend>
+		<p>
+			When the players are added, the game world can be created. For this one of the Universe Generators will be used. 
+		</p>
+		<div class="control-group">
+			<label class="control-label">Contents</label>
+			<div class="controls">
+				<input type="submit" class="btn btn-primary" name="simulate[generate]" value="Generate" <%= 'disabled' unless can_configure? %> />
+			</div>
+		</div>	
+		
+	</fieldset>
+
+	<div class="form-actions">
+		<input type="submit" class="btn btn-primary" name="simulate[start]" value="Simulate" <%= 'disabled' unless can_simulate? %> />
+		<input type="submit" class="btn" name="simulate[pause]" value="Pause" <%= 'disabled' unless can_simulate_pause? %> />
+		<input type="submit" class="btn" name="simulate[resume]" value="Resume" <%= 'disabled' unless can_simulate_resume? %> />
+		<input type="submit" class="btn" name="simulate[abort]" value="Abort" <%= 'disabled' unless can_simulate_abort? %> />
+	</div>
+	
+</form>
+
+<%= erb :footer %>

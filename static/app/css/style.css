@@ -1,0 +1,33 @@
+body {
+	padding-top: 50px;
+}
+
+.embedded {
+	color: #d32735;
+	transition: all 0.35s ease-in-out;
+}
+
+.embedded:hover {
+	background: #d32735;
+	color: white;
+}
+
+code, tt {
+	margin: 0 2px;
+	padding: 0px 5px;
+	border: 1px solid #ddd;
+	background-color: #f8f8f8;
+	border-radius: 3px;
+}
+
+.players {
+	list-style: none;
+	margin: 0;
+	display: inline-block;
+}
+
+.players li {
+	display: inline-block;
+	margin-right: 2px;
+	margin-bottom: 4px;
+}

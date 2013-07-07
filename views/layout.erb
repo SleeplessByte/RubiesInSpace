@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Rubies in Space</title>
+		<script src="/vendor/jquery.min.js"></script>
+		<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/app/css/style.css">
+	</head>
+	<body>
+
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+
+					<a class="brand" href="#">Rubies in Space</a>
+
+					<ul class="nav">
+						<%= menu_li '/', 'Home' %>
+						<%= menu_li '/simulation', 'Simulation' %>
+						<%= menu_li '/log', 'Log' %>
+						<%= menu_li '/explore', 'Explore' %>
+						<%= menu_li '/players', 'Players' %>
+					</ul>
+
+					<ul class="nav pull-right">
+						<li><a href="/"><%= username %></a></li>
+					</ul>
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<%if @error then %>
+				<div class="alert alert-error"><%=@error%></div>
+			<% end %>
+			<%= yield %>
+		</div>
+		
+		<script src="/app/js/script.js"></script>
+	</body>
+</html>

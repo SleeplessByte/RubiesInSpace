@@ -1,0 +1,44 @@
+<h1>Players</h1>
+<p>These are all the players loaded into the simulation runnner. When the simulation is not active, new players can <a href="/players/join">join</a> until the simulation is <a href="/simulation/">started</a>. When players die, they are no longer active. The list below indicates which players are still in the run for the win and which players are loaded into the simulation runner.</p>
+<p>The simulation is currently <%= simstate %>.</p>
+
+<form id="snapshot" class="form-horizontal" method="get">
+		
+	<fieldset>
+		<legend>Runner</legend>
+				
+		<div class="control-group">
+			<label class="control-label">Joined</label>
+			<div class="controls">
+				<% if can_configure? %> 
+				<a class="btn btn-primary" href="/players/join" title="Add a player"><i class="icon-plus icon-white"></i></a>
+				<% end %>
+				<ul class="players">
+					<% $runner.players.each do |player| %>
+						<li><a class="btn" href="/player/<%= player.id %>"><i class="icon-user"></i> <%= player.id %></a></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>	
+		
+	</fieldset>	
+		
+	<fieldset>
+		<legend>Snapshot Status</legend>
+				
+		<div class="control-group">
+			<label class="control-label">Active</label>
+			<div class="controls">
+				<ul class="players">
+					<% @snapshot.players.each do |player| %>
+						<li><a class="btn" href="/player/<%= player.id %>"><i class="icon-user"></i> <%= player.id %></a></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>	
+		
+	</fieldset>
+	
+</form>
+
+<%= erb :footer %>
