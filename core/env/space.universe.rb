@@ -127,7 +127,6 @@ module Space
 			#
 			#
 			@@randomizer = Random.new @seed
-			
 		end
 		
 		##
@@ -138,6 +137,8 @@ module Space
 			nodes.each do |n|
 				@nodes[ n.identifier ] = n
 			end
+							
+			@@logger = {}
 		end
 		
 		##
@@ -198,7 +199,12 @@ module Space
 		#
 		#
 		def self.timestamped( t, args )
-			log "Stardate #{stardate t }: #{ args }"
+			log "Stardate #{ stardate t }: #{ args }"
+			( @@logger[ t ] ||= [] ).push args
+		end
+		
+		def self.logger
+			@@logger
 		end
 		
 		#
