@@ -8,7 +8,7 @@ require_relative '../interface/iship'
 class Ship
 
 	attr_reader :interface, :data, :crew, :owner
-	attr_accessor :result
+	attr_accessor :result, :id
 	
 	##
 	# Creates the new ship. A crew can pass on any amount of data to
@@ -48,6 +48,7 @@ class Ship
 		#
 		@upgrades = {}
 		@data = data
+		@id = self.identifier
 	end
 	
 	##
@@ -226,6 +227,7 @@ class Ship
 	def snapshot
 		snapshot = self.clone
 		#snapshot.components.map! { |c| c.snapshot }
+		snapshot.id = self.id
 		return snapshot
 	end
 	
