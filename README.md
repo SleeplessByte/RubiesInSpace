@@ -31,6 +31,13 @@ Game World
 ----------------------
 See the [wiki](https://github.com/Derkje-J/RubiesInSpace/wiki/Home)
 
+Setup / Simulate
+----------------------
+- Install ruby 2.0.0
+- `bundle install`
+- `ruby server.rb`
+- Browse to `localhost:4567`
+
 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 Progress
