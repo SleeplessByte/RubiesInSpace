@@ -77,7 +77,7 @@ module Space
 		#
 		#
 		def to_s
-			"#{ self.class.name[ 0 ] }#{ self.object_id.to_s[ -4..-1 ] }"
+			"#{ self.class.name.split( '::' ).last[ 0 ] }#{ self.object_id.to_s[ -4..-1 ] }"
 		end
 			
 		##
