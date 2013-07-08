@@ -53,27 +53,28 @@ helpers do
 		action = params[ :simulate ].keys.first
 		method = ( 'try_' + action + '_simulation' ).to_sym
 		return false unless respond_to?( method )
-		send( method )
+		send( method, params )
 		return true
 	end
 	
-	def try_generate_simulation()
+	def try_generate_simulation( params )
+		$runner.with( { :universe => { :size => params[ :universe ][ :size ].to_i } } )
 		$runner.create
 	end
 	
-	def try_start_simulation()
+	def try_start_simulation( params )
 		$runner.simulate
 	end
 	
-	def try_pause_simulation()
+	def try_pause_simulation( params )
 		$runner.pause
 	end
 	
-	def try_resume_simulation()
+	def try_resume_simulation( params )
 		$runner.resume
 	end
 	
-	def try_abort_simulation()
+	def try_abort_simulation( params )
 		$runner.abort
 	end
 	
@@ -89,5 +90,11 @@ helpers do
 			return '<li class="active">' + link + '</li>'
 		end
 		return '<li>' + link + '</li>'
+	end
+	
+	def prettify_time( t )
+		ms = t * 1000
+		return "#{ ms.round() } ms" if ms < 1000
+		"#{ t.round 2 } s"
 	end
 end
