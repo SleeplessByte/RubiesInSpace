@@ -23,6 +23,11 @@ class Player
 		@id = identifier
 	end
 	
+	def clear
+		@ships = []
+		@crews = []
+	end
+	
 	#
 	#
 	def build( data = {} )
@@ -146,7 +151,6 @@ class Player
 		snapshot = self.clone
 		snapshot.ships = self.ships.map{ |ship| ship.snapshot }
 		snapshot.id = self.identifier
-		puts self.identifier
 		return snapshot
 	end
 	
