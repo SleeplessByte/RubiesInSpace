@@ -92,10 +92,10 @@ Pathways are between two nodes
 - &#x2610; communicate
     - &#x2610; broadcast data
     - &#x2611; yields a Communicate Report
-- &#x2610; attack
-    - &#x2610; attacks a player
-    - &#x2610; yields an attack event
-    - &#x2610; attacked player can determine action
+- &#x2611; attack
+    - &#x2611; attacks a player
+    - &#x2611; yields an attack event
+    - &#x2611; attacked player can determine action
     - &#x2611; yields a Battle Report
 - &#x2610; build
     - &#x2610; builds new ships, upgrades, tech
