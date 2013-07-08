@@ -1,0 +1,13 @@
+<h1><%= @ship.to_s %></h1>
+<p>This ship has a <%= @ship.crew.class.name %> crew.</p>
+
+<h2>Location</h2>
+<a class="btn" href="/explore/<%= @ship.location.identifier %>">
+	<i class="icon-map-marker"></i> <%= @ship.location.to_s %>
+</a>
+
+<h2>Owner</h2>
+<a class="btn" href="/player/<%= @ship.owner.identifier %>">
+	<i class="icon-user"></i> <%= @ship.owner.to_s %>
+</a>
+<%= erb :footer %>

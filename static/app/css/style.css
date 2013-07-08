@@ -20,14 +20,33 @@ code, tt {
 	border-radius: 3px;
 }
 
-.players {
+.players, .ships, .logs {
 	list-style: none;
 	margin: 0;
 	display: inline-block;
 }
 
-.players li {
+.players li, .ships li {
 	display: inline-block;
-	margin-right: 2px;
+	margin-right: 1px;
+	margin-bottom: 6px;
+}
+
+.logs li {
+	display: inline-block;
+	margin-right: 6px;
+	margin-bottom: 1px;
+}
+
+.nodes, .paths {
+	list-style: none;
+	margin: 0;
+	display: inline-block;
+	margin-bottom: 16px;
+}
+
+.nodes li, .paths li{
+	display: inline-block;
+	margin-right: 1px;
 	margin-bottom: 4px;
 }

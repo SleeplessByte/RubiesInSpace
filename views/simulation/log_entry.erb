@@ -1,0 +1,7 @@
+<h1>Stardate <%= @stardate %></h1>
+
+<% @logs.each do | log | %>
+<p><%= log %></p>
+<% end %>
+
+<%= erb :footer %>

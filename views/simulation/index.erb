@@ -12,11 +12,13 @@
 		<div class="control-group">
 			<label class="control-label">Joined</label>
 			<div class="controls">
-				<% if can_configure? %> 
-				<a class="btn btn-primary" href="/players/join" title="Add a player"><i class="icon-plus icon-white"></i></a>
-				<% end %>
-				
+
 				<ul class="players">
+				 
+					<% if can_configure? %> 
+						<li><a class="btn btn-primary" href="/players/join" title="Add a player"><i class="icon-plus icon-white"></i></a></li>
+					<% end %>
+				
 					<% $runner.players.each do |player| %>
 						<li><a class="btn" href="/player/<%= player.id %>"><i class="icon-user"></i> <%= player.identifier %></a></li>
 					<% end %>
@@ -31,6 +33,14 @@
 		<p>
 			When the players are added, the game world can be created. For this one of the Universe Generators will be used. 
 		</p>
+		
+		<div class="control-group">
+			<label class="control-label">Size</label>
+			<div class="controls">
+				<input type="number" class="span2" min="8" max="65536" step="1" name="universe[size]" value="<%= can_configure? ? 32 : $runner.universe.nodes.length %>" <%= 'disabled' unless can_configure? %> />
+			</div>
+		</div>	
+		
 		<div class="control-group">
 			<label class="control-label">Contents</label>
 			<div class="controls">

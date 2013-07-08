@@ -1,15 +1,15 @@
-<h1><%= @player.to_s %></h1>
-This player has a total runtime of <%= prettify_time @player.time %>.
+<h1>Ships</h1>
 
-<h2>Ships</h2>
 <ul class="ships">
-	<% @player.ships.each do | ship | %>
+<% $runner.players.each do |player| %>
+	<% player.ships.each do | ship | %>
 	<li>
 		<a class="btn" href="/ship/<%= ship.identifier %>">
 			<i class="icon-rocket"></i> <%= ship.to_s %>
 		</a>
 	</li>
 	<% end %>
+<% end %>
 </ul>
 
 <%= erb :footer %>

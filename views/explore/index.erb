@@ -1,0 +1,47 @@
+<h1>Explore</h1>
+
+<ul class="nodes">
+	<% 
+	count = 0
+	pagesize = 130
+	pages = $runner.universe.nodes.keys.length / pagesize + 1
+	@page = [ 0, [ pages, @page ].min ].max
+	
+	$runner.universe.nodes.each do | id, node |
+		if ( count >= @page * pagesize )
+			if count >= (@page + 1) * pagesize
+				break
+			end %>
+		<li>
+			<a class="btn btn-small" href="/explore/<%= id %>">
+				<i class="icon-map-marker"></i> <%= node.to_s %>
+			</a>
+		</li>
+			<% 
+		end
+		count += 1
+	end
+	%>
+</ul>
+
+<% if pages > 1 %>
+	<% if @page > 0 %>
+		<a href="/explore/page/<%= @page - 1 %>">&larr;</a> |
+	<% end %>
+
+	<% ( [0, @page - 5].max...@page ).each do | page | %>
+		<a href="/explore/page/<%= page %>"><%= page %></a> |
+	<% end %>
+
+	<%= @page %> |
+
+	<% ( @page + 1...[ pages, @page + 5 ].min ).each do | page | %>
+		<a href="/explore/page/<%= page %>"><%= page %></a> |
+	<% end %>
+
+	<% if @page + 1 < pages %>
+		<a href="/explore/page/<%= @page + 1 %>">&rarr;</a>
+	<% end %>
+<% end %>
+
+<%= erb :footer %>

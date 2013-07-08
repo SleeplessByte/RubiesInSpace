@@ -1,0 +1,50 @@
+<h1>Log</h1>
+
+<ul class="logs">
+	<% 
+	count = 0
+	pagesize = 63
+	pages = Space::Universe.logger.keys.length / pagesize + 1
+	@page = [ 0, [ pages, @page ].min ].max
+	
+	Space::Universe.logger.each do | t, logs | 
+		if ( count >= @page * pagesize )
+			if count >= (@page + 1) * pagesize
+				break
+			end %>
+		<li>
+			<div class="input-append">
+				<a class="btn" href="/log/<%= t %>">
+					<i class="icon-calendar"></i> <%= Space::Universe.stardate t %>
+				</a>
+				<span class="add-on"><%= logs.length %></span>
+			</div>
+		</li>
+			<% 
+		end
+		count += 1
+	end
+	%>
+</ul>
+
+<% if pages > 1 %>
+	<% if @page > 0 %>
+		<a href="/log/page/<%= @page - 1 %>">&larr;</a> |
+	<% end %>
+
+	<% ( [0, @page - 5].max...@page ).each do | page | %>
+		<a href="/log/page/<%= page %>"><%= page %></a> |
+	<% end %>
+
+	<%= @page %> |
+
+	<% ( @page + 1...[ pages, @page + 5 ].min ).each do | page | %>
+		<a href="/log/page/<%= page %>"><%= page %></a> |
+	<% end %>
+
+	<% if @page + 1 < pages %>
+		<a href="/log/page/<%= @page + 1 %>">&rarr;</a>
+	<% end %>
+<% end %>
+
+<%= erb :footer %>

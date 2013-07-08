@@ -39,10 +39,103 @@ post '/simulation' do
 end
 
 #=====-=====-=====-=====-=====-=====# 
-# PLAYERS
+# Exploration
+#=====-=====-=====-=====-=====-=====#
+get '/explore' do
+	if $runner.universe.nil?
+		redirect to '/simulation'
+	else
+		@page = 0
+		erb :'explore/index'
+	end
+end
+
+get '/explore/page/:n' do
+	if $runner.universe.nil?
+		redirect to '/simulation'
+	else
+		@page = params[ :n ].to_i
+		erb :'explore/index'
+	end
+end
+
+get '/explore/:id' do
+	if $runner.universe.nil?
+		redirect to '/simulation'
+	else
+		@node = $runner.universe.nodes[ params[ :id ].to_i ]
+		if @node.nil?
+			redirect to '/explore'
+		else
+			erb :'explore/show'
+		end
+	end
+end
+
+#=====-=====-=====-=====-=====-=====# 
+# Logger
+#=====-=====-=====-=====-=====-=====#
+get '/log' do
+	if $runner.universe.nil?
+		redirect to '/simulation'
+	else
+		@page = 0
+		erb :'simulation/log'
+	end
+end
+
+get '/log/page/:n' do
+	if $runner.universe.nil?
+		redirect to '/simulation'
+	else
+		@page = params[ :n ].to_i
+		erb :'simulation/log'
+	end
+end
+
+get '/log/:date' do
+	if $runner.universe.nil?
+		redirect to '/simulation'
+	else
+		@stardate = Space::Universe.stardate params[ :date ].to_i
+		@logs = Space::Universe.logger[ params[ :date ].to_i ]
+		#@next = 
+		if @logs.nil?
+			redirect to '/log'
+		else
+			erb :'simulation/log_entry'
+		end
+	end
+end
+
+#=====-=====-=====-=====-=====-=====# 
+# Ships
+#=====-=====-=====-=====-=====-=====#
+get '/ships' do
+	if $runner.universe.nil?
+		redirect to '/simulation'
+	else
+		erb :'ships/index'
+	end
+end
+
+get '/ship/:id' do
+	ships = ( $runner.players.map do | player | player.ships end ).flatten
+	@ship = ships.find do | ship | ship.id.to_s == params[ :id ] end
+	puts "", "", "s:" + @ship.to_s
+	if @ship.nil?
+		redirect to '/ships'
+	else
+		erb :'ships/show'
+	end
+end
+
+
+#=====-=====-=====-=====-=====-=====# 
+# Players
 #=====-=====-=====-=====-=====-=====#
 get '/player/:id' do
-	@player = $runner.players.find do |p| p.id.to_s == params[:id] end
+	@player = $runner.players.find do |p| p.id.to_s == params[ :id ] end
 	if @player.nil?
 		redirect to '/players'
 	else

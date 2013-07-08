@@ -1,0 +1,30 @@
+<h1><%= @node %></h1>
+<p>This node is a <%= @node.class.name %> designated <%= @node.to_s %>.</p>
+
+<% if @node.ships.length > 0 %>
+	<h2>Ships</h2>
+	<ul class="ships">
+		<% @node.ships.each do | ship | %>
+		<li>
+			<a class="btn" href="/ship/<%= ship.identifier %>">
+				<i class="icon-rocket"></i> <%= ship.to_s %>
+			</a>
+		</li>
+		<% end %>
+	</ul>
+<% end %>
+
+<h2>Connections</h2>
+<ul class="paths">
+	<% @node.paths.each do |path| %>
+	<li>
+		<div class="input-append">
+			<a class="btn" href="/explore/<%= path[ :to ].identifier %>">
+				<i class="icon-map-marker"></i> <%= path[ :to ].to_s %>
+			</a> 
+			<span class="add-on"><%= path[ :distance ] %></span>
+		</div>
+	</li>
+	<% end %>
+</ul>
+<%= erb :footer %>
