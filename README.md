@@ -10,8 +10,8 @@ As far as I know (and searched - not that I looked thoroughly) there is no such 
 
 How to Win the Game
 ----------------------
-In _Rubies in Space_ you control ships by providing the crew. You have two goals:
-- Stay alive by keeping the ship alive
+In _Rubies in Space_ you control ships by providing the [crew](https://github.com/Derkje-J/RubiesInSpace/wiki/Crew). You have two goals:
+- Stay alive by keeping the [ship](https://github.com/Derkje-J/RubiesInSpace/wiki/Ship) alive
 - Find the **Ruby**
 
 There latter is hidden in one of the many asteroids and can only be found by drilling with a special **Drill** that has to be researched and build. More on this later. You stay alive by keeping the energy level of the ship above 0.
@@ -37,6 +37,7 @@ Setup / Simulate
 - `bundle install`
 - `ruby server.rb`
 - Browse to `localhost:4567`
+- See the [wiki entry](https://github.com/Derkje-J/RubiesInSpace/wiki/Installation)
 
 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
