@@ -81,6 +81,7 @@ class RubiesInSpaceRunner
 		Space::Universe.log "\r\nSpawning players"
 		
 		@players.each do | p | 
+			p.clear
 			p.spawn( 
 				@universe.node( 
 					@universe.get_spawn_node 
@@ -133,8 +134,7 @@ class RubiesInSpaceRunner
 					#
 					@instance.players = @instance.players.select { | player | if player.dead? then puts "\r\n~~~ #{player} died! ~~~"; false; else true end }
 					
-					if @instance.step == 1000000 or @instance.players.length <= 1 or not @instance.active?
-						puts "", "STOPPPP", ""
+					if @instance.players.length <= 1 or not @instance.active?
 						break
 					end
 					
